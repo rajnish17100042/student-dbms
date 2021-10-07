@@ -35,7 +35,7 @@
 
 
 export default {
-    name:'Signup',
+    name:'StudentRegistration',
     data(){
     return{
         name:'',
@@ -85,9 +85,14 @@ export default {
             });
             // console.log(response);
             const data=await response.json();
-            // console.log(data);
+            console.log(data);
             if(response.status!==200||!data){
-              window.alert("something went wrong! Please try again");
+              window.alert("something went wrong or User is already registered");
+            }else{
+              window.alert("Student registered successfully");
+              
+              // clear all the input fields 
+              this.name=this.email=this.phone=this.address=this.city=this.state=this.pincode=this.batch=this.admissionDate=this.personalMentor=this.password=this.cpassword='';
             }
         }catch(err){
             // console.log(err);

@@ -1,13 +1,13 @@
 <template>
- <Signup/>
+ <StudentRegistration/>
 </template>
 
 <script>
-import Signup from './components/Signup.vue';
+import StudentRegistration from './components/StudentRegistration.vue';
 export default {
 name:'App',
 components:{
-  Signup
+  StudentRegistration
 }
 
 }
