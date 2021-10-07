@@ -1,26 +1,27 @@
 <template>
   <form method="post">
     <div class="container">
-      <h1>Register Student</h1>
-      <p>Please fill in this form to register students</p>
+      <h1>Register Teacher</h1>
+      <p>Please fill in this form to register teacher</p>
       <hr/>
 
-      <input type="text" v-model="name" placeholder="Enter Name of Student"  id="name" required/>
+      <input type="text" v-model="name" placeholder="Enter Name of the Teacher"  id="name" required/>
       <input type="email" v-model="email" placeholder="Enter Email"  id="email" required/>
       <input type="tel" v-model="phone" placeholder="Enter Mobile Number"  id="phone" required/>
       <input type="text" v-model="address" placeholder="Enter Address"  id="address" required/>
       <input type="text" v-model="city" placeholder="Enter City Name"  id="city" required/>
       <input type="text" v-model="state" placeholder="Enter State"  id="state" required/>
       <input type="text" v-model="pincode" placeholder="Enter Pincode"  id="pincode" required/>
-      <input type="text" v-model="batch" placeholder="Enter Batch Name"  id="batch" required/>
-      <input type="date" v-model="admissionDate" placeholder="Enter Date of Admission"  id="admissionDate" required/>
-      <input type="text" v-model="personalMentor" placeholder="Enter Personal Mentor Name"  id="personalMentor" required/>
+      <input type="text" v-model="qualification" placeholder="Enter Qualification"  id="qualification" required/>
+      <input type="text" v-model="experience" placeholder="Enter Experience in Years"  id="experience" required/>
+      <input type="date" v-model="joiningDate" placeholder="Enter Date of Joining"  id="joiningDate" required/>
+      <input type="text" v-model="salary" placeholder="Enter Salary"  id="salary" required/>
       <input type="password" v-model="password" placeholder="Enter Password" id="password" required/>
       <input type="password" v-model="cpassword" placeholder="Confirm Password"  id="cpassword" required/>
       <hr/>
     
 
-      <button type="submit" class="registerbtn" @click.prevent="registerStudent">Register</button>
+      <button type="submit" class="registerbtn" @click.prevent="registerTeacher">Register</button>
     </div>
     
   
@@ -35,7 +36,7 @@
 
 
 export default {
-    name:'StudentRegistration',
+    name:'TeacherRegistration',
     data(){
     return{
         name:'',
@@ -45,23 +46,24 @@ export default {
         city:'',
         state:'',
         pincode:'',
-        batch:'',
-        admissionDate:'',
-        personalMentor:'',
+        qualification:'',
+        experience:'',
+        joiningDate:'',
+        salary:'',
         password:'',
         cpassword:'',
     }
     },
     methods:{
-        async registerStudent(){
+        async registerTeacher(){
           // client side validation 
-            if(!this.name||!this.email||!this.phone||!this.address||!this.city||!this.state||!this.pincode||!this.batch||!this.admissionDate||!this.personalMentor||!this.password||!this.cpassword){
+            if(!this.name||!this.email||!this.phone||!this.address||!this.city||!this.state||!this.pincode||!this.qualification||!this.experience||!this.joiningDate||!this.salary||!this.password||!this.cpassword){
               return window.alert("Please fill the data properly");
             }
             if(this.password!==this.cpassword){
               return window.alert("Password not matching")
             }
-            const student={
+            const teacher={
               name:this.name,
               email:this.email,
               phone:this.phone,
@@ -69,30 +71,31 @@ export default {
               city:this.city,
               state:this.state,
               pincode:this.pincode,
-              batch:this.batch,
-              admissionDate:this.admissionDate,
-              personalMentor:this.personalMentor,
+              qualification:this.qualification,
+              experience:this.experience,
+              joiningDate:this.joiningDate,
+              salary:this.salary,
               password:this.password
             };
         try{
-            const response = await fetch("http://localhost:5001/registerStudent", {
+            const response = await fetch("http://localhost:5001/registerTeacher", {
               method: "POST",
               headers: {
                 "Content-Type": "application/json",
               },
-              body: JSON.stringify(student),
+              body: JSON.stringify(teacher),
             
             });
             // console.log(response);
             const data=await response.json();
             console.log(data);
             if(response.status!==200||!data){
-              window.alert("something went wrong or User is already registered");
+              window.alert("something went wrong or  already registered");
             }else{
-              window.alert("Student registered successfully");
+              window.alert("Teacher Registered successfully");
               
               // clear all the input fields 
-              this.name=this.email=this.phone=this.address=this.city=this.state=this.pincode=this.batch=this.admissionDate=this.personalMentor=this.password=this.cpassword='';
+              this.name=this.email=this.phone=this.address=this.city=this.state=this.pincode=this.qualification=this.experience=this.joiningDate=this.salary=this.password=this.cpassword='';
             }
         }catch(err){
             // console.log(err);
