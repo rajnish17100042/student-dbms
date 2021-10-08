@@ -157,7 +157,7 @@ export default {
         password: this.password
       };
       try {
-        const response = await fetch("http://localhost:5001/registerStudent", {
+        const response = await fetch("http://localhost:5000/registerStudent", {
           method: "POST",
           headers: {
             "Content-Type": "application/json"
