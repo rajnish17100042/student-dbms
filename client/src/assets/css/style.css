@@ -14,7 +14,7 @@ body {
 }
 
 /* Full-width input fields */
-input[type=text],input[type=email],input[type=tel],input[type=date], input[type=password] {
+input[type=text],input[type=email],input[type=tel],input[type=date], input[type=password],select {
   width: 100%;
   padding: 15px;
   margin: 5px 0 22px 0;
@@ -51,7 +51,7 @@ hr {
 }
 
 /* Set a style for the submit button */
-.registerbtn {
+.registerbtn,.loginbtn {
   background-color: #04AA6D;
   color: white;
   padding: 16px 20px;
@@ -62,7 +62,7 @@ hr {
   opacity: 0.9;
 }
 
-.registerbtn:hover {
+.registerbtn:hover ,.login:hover{
   opacity: 1;
 }
 

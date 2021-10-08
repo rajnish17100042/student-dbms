@@ -3,6 +3,7 @@ import AdminRegistration from "./components/admin/AdminRegistration.vue";
 import TeacherRegistration from "./components/admin/TeacherRegistration.vue";
 import StudentRegistration from "./components/admin/StudentRegistration.vue";
 import Home from "./components/Home.vue";
+import Login from "./components/Login.vue";
 import { createRouter, createWebHistory } from "vue-router";
 
 // will define route and for every route we will create an object
@@ -12,6 +13,12 @@ const routes = [
     name: "Home",
     component: Home,
     path: "/",
+  },
+  //route for login page
+  {
+    name: "Login",
+    component: Login,
+    path: "/login",
   },
   // route admin registration
   {

@@ -28,13 +28,13 @@
           >
         </li>
         <li class="nav-item">
-          <router-link class="nav-link" to="registerTeacher">Admin</router-link>
+          <router-link class="nav-link" to="/login">Admin</router-link>
         </li>
         <li class="nav-item">
-          <router-link class="nav-link" to="teacher">Teacher</router-link>
+          <router-link class="nav-link" to="/login">Teacher</router-link>
         </li>
         <li class="nav-item">
-          <router-link class="nav-link" to="/student">Student</router-link>
+          <router-link class="nav-link" to="/login">Student</router-link>
         </li>
       </ul>
       <form class="form-inline my-2 my-lg-0">
