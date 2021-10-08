@@ -23,18 +23,18 @@
     <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
       <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
         <li class="nav-item active">
-          <a class="nav-link" href="/"
-            >Home <span class="sr-only">(current)</span></a
+          <router-link class="nav-link" to="/"
+            >Home <span class="sr-only">(current)</span></router-link
           >
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="registerTeacher">Admin</a>
+          <router-link class="nav-link" to="registerTeacher">Admin</router-link>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="teacher">Teacher</a>
+          <router-link class="nav-link" to="teacher">Teacher</router-link>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/student">Student</a>
+          <router-link class="nav-link" to="/student">Student</router-link>
         </li>
       </ul>
       <form class="form-inline my-2 my-lg-0">

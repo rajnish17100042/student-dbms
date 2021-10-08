@@ -259,7 +259,7 @@
     <div class="container">
       <p>
         Copyright &copy; 2021 Catalyst. Designed by Rajnish Patel
-        <a href="#"></a>
+        <router-link to="/"></router-link>
       </p>
     </div>
   </footer>
