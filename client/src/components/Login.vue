@@ -22,8 +22,8 @@
       />
       <select v-model="role" required>
         <option value="" disabled selected>Select your Role</option>
-        <option value="student">Student</option>
-        <option value="librarian">Teacher</option>
+        <option value="student">student</option>
+        <option value="teacher">Teacher</option>
         <option value="admin">Admin</option>
       </select>
       <hr />
@@ -41,32 +41,34 @@ export default {
   data() {
     return {
       email: "",
-      role: "",
-      password: ""
+      password: "",
+      role: ""
     };
   },
   methods: {
     async login() {
       // client side validation
-      if (!this.email || !this.role || !this.password) {
+      if (!this.email || !this.password || !this.role) {
         return window.alert("Please fill the data properly");
       }
 
       const loginData = {
         email: this.email,
-        role: this.role,
-        password: this.password
+        password: this.password,
+        role: this.role
       };
       console.log(loginData);
       try {
-        const response = await fetch("http://localhost:5000/login", {
+        const response = await fetch("http://localhost:5001/login", {
           method: "POST",
           headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json;charset=utf-8"
           },
+          //   credentials: "include", // Don't forget to specify this if you need cookies
+
           body: JSON.stringify(loginData)
         });
-        // console.log(response);
+        console.log(response);
         const data = await response.json();
         console.log(data);
         if (response.status !== 200 || !data) {

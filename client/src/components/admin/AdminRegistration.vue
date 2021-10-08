@@ -143,7 +143,7 @@ export default {
         });
         // console.log(response);
         const data = await response.json();
-        console.log(data);
+        // console.log(data);
         if (response.status !== 200 || !data) {
           window.alert("something went wrong or Admin is already registered");
         } else {

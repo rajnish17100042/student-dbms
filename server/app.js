@@ -16,6 +16,7 @@ const port = process.env.PORT;
 app.use(express.json());
 
 //adding middleware for the cookie parser to use the cookies
+
 app.use(cookieParser());
 
 // use cors to send the data from one port to other
@@ -23,6 +24,7 @@ app.use(cookieParser());
 app.use(cors());
 
 //using middleware to use the route we created
+
 app.use(require("./router/routes"));
 
 app.listen(port, (err) => {
