@@ -1,5 +1,6 @@
 <template>
   <Navbar />
+  <router-view />
   <!-- <AdminRegistration /> -->
   <!-- <StudentRegistration /> -->
   <!-- <TeacherRegistration /> -->

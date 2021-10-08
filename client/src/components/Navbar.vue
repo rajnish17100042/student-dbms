@@ -28,10 +28,10 @@
           >
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/admin">Admin</a>
+          <a class="nav-link" href="admin/registerTeacher">Admin</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/teacher">Teacher</a>
+          <a class="nav-link" href="admin/teacher">Teacher</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="/student">Student</a>

@@ -16,7 +16,7 @@ router.get("/", (req, res) => {
 // create route for student registration
 router.post("/registerStudent", (req, res) => {
   const studentData = req.body;
-  console.log(studentData);
+  // console.log(studentData);
 
   // destructuring the data
   let {
@@ -109,7 +109,7 @@ router.post("/registerStudent", (req, res) => {
 //route for teacher registration
 router.post("/registerTeacher", (req, res) => {
   const teacherData = req.body;
-  console.log(teacherData);
+  // console.log(teacherData);
 
   // destructuring the data
   let {
@@ -205,7 +205,7 @@ router.post("/registerTeacher", (req, res) => {
 // create route for Admin registration
 router.post("/registerAdmin", (req, res) => {
   const adminData = req.body;
-  console.log(adminData);
+  // console.log(adminData);
 
   // destructuring the data
   let {
