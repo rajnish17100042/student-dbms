@@ -10,7 +10,7 @@ const cors = require("cors");
 
 dotenv.config({ path: "./config.env" });
 // require("./db/conn");
-const port = process.env.PORT || 5000;
+const port = process.env.PORT;
 
 //adding middleware so that the application can understand the json data recieved at the endpoint(/register)
 app.use(express.json());
