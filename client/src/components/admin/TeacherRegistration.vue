@@ -185,6 +185,9 @@ export default {
           // clear all the input fields
           this.name = this.email = this.phone = this.address = this.city = this.state = this.pincode = this.qualification = this.experience = this.joiningDate = this.salary = this.password = this.cpassword =
             "";
+
+          // send admin to home page
+          this.$router.push({ name: "Home" });
         }
       } catch (err) {
         // console.log(err);

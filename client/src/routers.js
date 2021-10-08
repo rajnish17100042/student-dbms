@@ -17,19 +17,19 @@ const routes = [
   {
     name: "AdminRegistration",
     component: AdminRegistration,
-    path: "/admin/registerAdmin",
+    path: "/registerAdmin",
   },
   // route for teacher registration
   {
     name: "TeacherRegistration",
     component: TeacherRegistration,
-    path: "/admin/registerTeacher",
+    path: "/registerTeacher",
   },
   // route for student registration
   {
     name: "StudentRegistration",
     component: StudentRegistration,
-    path: "/admin/registerStudent",
+    path: "/registerStudent",
   },
 ];
 

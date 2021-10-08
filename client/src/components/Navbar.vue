@@ -6,7 +6,7 @@
         width="30"
         height="30"
         alt=""
-      />Student DBMS</a
+      /><strong>Student DBMS</strong></a
     >
     <button
       class="navbar-toggler"
@@ -23,15 +23,15 @@
     <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
       <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
         <li class="nav-item active">
-          <a class="nav-link" href="#"
+          <a class="nav-link" href="/"
             >Home <span class="sr-only">(current)</span></a
           >
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="admin/registerTeacher">Admin</a>
+          <a class="nav-link" href="registerTeacher">Admin</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="admin/teacher">Teacher</a>
+          <a class="nav-link" href="teacher">Teacher</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="/student">Student</a>
