@@ -121,6 +121,13 @@ export default {
       cpassword: ""
     };
   },
+  beforeMount() {
+    window.alert("before mounting");
+  },
+  mounted() {
+    window.alert("after mounting");
+  },
+
   methods: {
     async registerStudent() {
       // client side validation
@@ -159,6 +166,7 @@ export default {
       try {
         const response = await fetch("http://localhost:5000/registerStudent", {
           method: "POST",
+          credentials: "include", //important to include cookie data will be sent to server
           headers: {
             "Content-Type": "application/json"
           },

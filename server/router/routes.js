@@ -9,13 +9,16 @@ const saltRounds = 12;
 // requiring database connection
 const db = require("../db/conn");
 
+//include authenticate middleware here
+const authenticate = require("../middleware/authenticate");
+
 // create an endpoint or route for the home page
 router.get("/", (req, res) => {
   res.send("<h1>Hello from the Home Page.....This is the Express router</h1>");
 });
 
 // create route for student registration
-router.post("/registerStudent", (req, res) => {
+router.post("/registerStudent", authenticate, (req, res) => {
   const studentData = req.body;
   // console.log(studentData);
 
@@ -382,4 +385,7 @@ router.post("/login", (req, res) => {
 
   // console.log(result);
 });
+
+//routes for authentication before
+
 module.exports = router;
