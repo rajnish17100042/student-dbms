@@ -21,7 +21,12 @@ app.use(cookieParser());
 
 // use cors to send the data from one port to other
 //no need to use cors if proxy is used in the frontend
-app.use(cors());
+app.use(
+  cors({
+    origin: "http://localhost:8080",
+    credentials: true,
+  })
+);
 
 //using middleware to use the route we created
 

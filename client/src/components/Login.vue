@@ -5,6 +5,9 @@
       <p>Please fill in this form to Login</p>
       <hr />
 
+      <label for="email"
+        ><i class="fa fa-envelope"></i> <strong>Email</strong></label
+      >
       <input
         type="email"
         v-model="email"
@@ -12,6 +15,9 @@
         id="email"
         required
       />
+      <label for="password"
+        ><i class="fa fa-key"></i><strong>Password</strong></label
+      >
 
       <input
         type="password"
@@ -20,6 +26,10 @@
         id="password"
         required
       />
+
+      <label for="role"
+        ><i class="fa fa-universal-access"></i><strong>Role</strong></label
+      >
       <select v-model="role" required>
         <option value="" disabled selected>Select your Role</option>
         <option value="student">student</option>
@@ -59,8 +69,9 @@ export default {
       };
       console.log(loginData);
       try {
-        const response = await fetch("http://localhost:5001/login", {
+        const response = await fetch("http://localhost:5000/login", {
           method: "POST",
+          credentials: "include",
           headers: {
             "Content-Type": "application/json;charset=utf-8"
           },

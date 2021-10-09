@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-
+const secretKey = process.env.SECRET_KEY;
 // saltRound for password hashing
 const saltRounds = 12;
 
@@ -292,13 +292,16 @@ router.post("/registerAdmin", (req, res) => {
 
 // route for common login
 router.post("/login", (req, res) => {
+  // global variables
   // based on the role will select the table
   let tableName = "";
-  const data = req.body;
-  // console.log(data);
+  let dbpassword = "";
+  let dbemail = "";
 
   // destructuring of data
-  const { email, password, role } = req.body;
+  let { email, password, role } = req.body;
+  const data = req.body;
+  // console.log(data);
 
   // server side validation
   if (!email || !password || !role) {
@@ -317,9 +320,12 @@ router.post("/login", (req, res) => {
   const sql = `select email,password from ${tableName} where email=?`;
   db.query(sql, email, async (err, result) => {
     // if user is not found then the result will be an empty array
-    // console.log(result[0].password);
-    let dbpassword = result[0].password;
-    let dbemail = result[0].email;
+    // console.log(result);
+    if (result.length) {
+      dbpassword = result[0].password;
+      dbemail = result[0].email;
+    }
+
     if (err) {
       //  throw err;
       return res.status(400).json("Some error occured! Please try again");
@@ -340,19 +346,24 @@ router.post("/login", (req, res) => {
         return res.status(400).json("Invalid Credentials");
       }
       // if every thing is fine then genetate a  token for the user ...jwt authentication and store it in the cookie for access the protected routed
+
+      // checking if role variable is accessed here
+      // console.log(role);
       const payload = {
         email: dbemail,
         password: dbpassword,
+        role,
       };
-      jwt.sign({ payload }, "secretKey", (err, token) => {
+      // console.log(payload);
+      jwt.sign({ payload }, secretKey, (err, token) => {
         if (err) {
           // throw err;
           return res.status(400).json("Some error occured! Please try again");
         }
         // console.log(token);
 
-        res.cookie("token", token, {
-          expires: new Date(Date.now() + 2592000), //time in millisecond  30days...24*60*60*30*1000 millisecond
+        res.cookie("accessToken", token, {
+          expiresIn: "15min",
           httpOnly: true,
         });
 
