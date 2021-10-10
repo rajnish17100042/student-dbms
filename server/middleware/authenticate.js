@@ -4,6 +4,7 @@ const db = require("../db/conn");
 const secretKey = process.env.SECRET_KEY;
 
 const authenticate = async (req, res, next) => {
+  let tableName = ""; // global variable
   // console.log("inside authenticate function");
 
   try {
@@ -21,37 +22,40 @@ const authenticate = async (req, res, next) => {
     let { email, password, role } = verifyToken.payload;
 
     // just check the role only admin and is allowed to register the student  as per the project requirement
-    if (role !== "admin") {
-      //   console("inside contidion checking for role");
-      return res.status().json("Don't have permission to register");
-    }
+    // if (role !== "admin") {
+    //   //   console("inside contidion checking for role");
+    //   return res.status(400).json("Don't have permission to register");
+    // }
 
     // console.log(email, password, role);
     // now based on the role choose the table for teacher or admin
-    //    if (role === "teacher") {
-    //   tableName = "teacher_registration";
-    // } else if (role === "admin") {
-    //   tableName = "admin_registration";
-    // }
-    const tableName = "admin_registration";
-    const sql = `select email from ${tableName} where email=? and password=? `;
+    if (role === "student") {
+      tableName = "student_registration";
+    } else if (role === "teacher") {
+      tableName = "teacher_registration";
+    } else if (role === "admin") {
+      tableName = "admin_registration";
+    }
+
+    const sql = `select name,email,phone from ${tableName} where email=? and password=? `;
     db.query(sql, [email, password], (err, result) => {
       if (err) {
         throw err;
       }
-      //   console.log(result);
+      console.log(result);
 
       if (!result.length) {
         // means authentication failed
         // console.log("inside condition checking for result length");
-        return res.status().json("Don't have permission to register");
+        return res.status(400).json("Something is missing");
       }
       //if everything is fine then call next function which will do the registration process
+      req.user = result;
       next();
     });
   } catch (err) {
     // console.log(err);
-    res.status(400).json("Don't have permission to register ");
+    res.status(400).json("something is missing");
   }
 };
 

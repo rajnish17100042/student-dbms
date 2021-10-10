@@ -92,7 +92,7 @@ export default {
 
           // send user to home page after successful login
 
-          this.$router.push({ name: "Home" });
+          this.$router.push({ name: "CommonDashboard" });
         }
       } catch (err) {
         // console.log(err);

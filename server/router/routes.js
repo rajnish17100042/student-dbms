@@ -386,6 +386,10 @@ router.post("/login", (req, res) => {
   // console.log(result);
 });
 
-//routes for authentication before
+//routes for common dashboard
+router.get("/dashboard", authenticate, async (req, res) => {
+  console.log("This is dashboard");
+  res.status(200).json({ user: req.user });
+});
 
 module.exports = router;
