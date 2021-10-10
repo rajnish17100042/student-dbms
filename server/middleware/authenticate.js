@@ -4,57 +4,54 @@ const db = require("../db/conn");
 const secretKey = process.env.SECRET_KEY;
 
 const authenticate = async (req, res, next) => {
-  let tableName = "";
   // console.log("inside authenticate function");
 
   try {
     //   get the access token from the cookie
-    console.log("inside try block of authenticate middleware");
+    // console.log("inside try block of authenticate middleware");
     // console.log(req);
     const token = req.cookies.accessToken;
     // console.log(token);
 
     // let's verify the token and get the user details
     const verifyToken = jwt.verify(token, secretKey);
-    console.log(verifyToken);
+    // console.log(verifyToken);
 
     // //now check in the database if the user is present with the valid role
-    const { email, password, role } = verifyToken.payload;
+    let { email, password, role } = verifyToken.payload;
 
-    console.log(email, password, role);
-    // now based on the role choose the table for student,teacher or admin
-    if (role === "student") {
-      tableName = "student_registration";
-    } else if (role === "teacher") {
-      tableName = "teacher_registration";
-    } else if (role === "admin") {
-      tableName = "admin_registration";
+    // just check the role only admin and is allowed to register the student  as per the project requirement
+    if (role !== "admin") {
+      //   console("inside contidion checking for role");
+      return res.status().json("Don't have permission to register");
     }
 
+    // console.log(email, password, role);
+    // now based on the role choose the table for teacher or admin
+    //    if (role === "teacher") {
+    //   tableName = "teacher_registration";
+    // } else if (role === "admin") {
+    //   tableName = "admin_registration";
+    // }
+    const tableName = "admin_registration";
     const sql = `select email from ${tableName} where email=? and password=? `;
     db.query(sql, [email, password], (err, result) => {
       if (err) {
         throw err;
       }
-      console.log(result);
+      //   console.log(result);
+
+      if (!result.length) {
+        // means authentication failed
+        // console.log("inside condition checking for result length");
+        return res.status().json("Don't have permission to register");
+      }
+      //if everything is fine then call next function which will do the registration process
+      next();
     });
-    // // console.log(rootUser);
-
-    // req.token = token;
-    // req.rootUser = rootUser;
-    // req.userId = rootUser._id;
-
-    // if (!rootUser) {
-    //   return res.send.json(401)("No user found in the database");
-    // }
-
-    // // console.log("user exist in the database");
-
-    // // if everything is fine then call next function which will send user data to frontend
-    // next();
   } catch (err) {
     // console.log(err);
-    res.status(401).json("Authentication failed: No user found");
+    res.status(400).json("Don't have permission to register ");
   }
 };
 

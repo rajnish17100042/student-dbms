@@ -121,12 +121,12 @@ export default {
       cpassword: ""
     };
   },
-  beforeMount() {
-    window.alert("before mounting");
-  },
-  mounted() {
-    window.alert("after mounting");
-  },
+  // beforeMount() {
+  //   window.alert("before mounting");
+  // },
+  // mounted() {
+  //   window.alert("after mounting");
+  // },
 
   methods: {
     async registerStudent() {
