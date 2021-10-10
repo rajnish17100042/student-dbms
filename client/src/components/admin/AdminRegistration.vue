@@ -136,6 +136,7 @@ export default {
       try {
         const response = await fetch("http://localhost:5000/registerAdmin", {
           method: "POST",
+          credentials: "include", //important to include cookie data will be sent to server
           headers: {
             "Content-Type": "application/json"
           },

@@ -111,7 +111,7 @@ router.post("/registerStudent", authenticate, (req, res) => {
 });
 
 //route for teacher registration
-router.post("/registerTeacher", (req, res) => {
+router.post("/registerTeacher", authenticate, (req, res) => {
   const teacherData = req.body;
   // console.log(teacherData);
 
@@ -207,7 +207,7 @@ router.post("/registerTeacher", (req, res) => {
 });
 
 // create route for Admin registration
-router.post("/registerAdmin", (req, res) => {
+router.post("/registerAdmin", authenticate, (req, res) => {
   const adminData = req.body;
   // console.log(adminData);
 
