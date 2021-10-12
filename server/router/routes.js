@@ -410,4 +410,21 @@ router.get("/admin/studentDetails", authenticate, async (req, res) => {
   res.status(200).json({ message: "Reached the routes" });
 });
 
+//route to authenticate befor rendering registration page
+router.get(
+  "/admin/registrationAuthentication",
+  authenticate,
+  async (req, res) => {
+    // console.log("reached the route");
+    // console.log(req.user);
+    // console.log(req.role);
+
+    if (req.role !== "admin") {
+      return res.status(400).json({ error: "Error! Try again" });
+    } else {
+      return res.status(200).json({ success: "Rendering registration page" });
+    }
+  }
+);
+
 module.exports = router;
