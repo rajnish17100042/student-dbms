@@ -19,95 +19,104 @@ router.get("/", (req, res) => {
 
 // create route for student registration
 router.post("/registerStudent", authenticate, (req, res) => {
+  // console.log(req.user);
+  // console.log(req.role);
   const studentData = req.body;
   // console.log(studentData);
 
-  // destructuring the data
-  let {
-    name,
-    email,
-    phone,
-    address,
-    city,
-    state,
-    pincode,
-    batch,
-    admissionDate,
-    personalMentor,
-    password,
-  } = req.body;
+  if (req.user.role !== "admin") {
+    return res.status(400).json({ error: "Error! Try agiain" });
+  } else {
+    // destructuring the data
+    let {
+      name,
+      email,
+      phone,
+      address,
+      city,
 
-  //   server side validation
-  if (
-    !name ||
-    !email ||
-    !phone ||
-    !address ||
-    !city ||
-    !state ||
-    !pincode ||
-    !batch ||
-    !admissionDate ||
-    !personalMentor ||
-    !password
-  ) {
-    return res.status(400).json("Please fill the data properly");
-  }
+      state,
+      pincode,
+      batch,
+      admissionDate,
+      personalMentor,
+      password,
+    } = req.body;
 
-  // before registration check if student already present
-  db.query(
-    "select email from student_registration where email=?",
-    email,
-    (err, result) => {
-      if (err) {
-        // throw err;
-        return res.status(400).json("Some error occured please register again");
-      }
-      //   console.log(result, result.length);
-      if (result.length > 0) {
-        // console.log("helo hello hello");
-        return res.status(400).json("Student is already registered");
-      } else {
-        // password hashing using bcrypt
-        bcrypt.hash(password, saltRounds, (err, hash) => {
-          if (err) {
-            // throw err;
-            return res
-              .status(400)
-              .json("Some error occured please register again");
-          }
-          password = hash;
-          // console.log(password);
-          let sql = "insert into student_registration set ?";
-          let data = {
-            name,
-            email,
-            phone,
-            address,
-            city,
-            state,
-            pincode,
-            batch,
-            admission_date: admissionDate,
-            personal_mentor: personalMentor,
-            password,
-          };
+    //   server side validation
+    if (
+      !name ||
+      !email ||
+      !phone ||
+      !address ||
+      !city ||
+      !state ||
+      !pincode ||
+      !batch ||
+      !admissionDate ||
+      !personalMentor ||
+      !password
+    ) {
+      return res.status(400).json("Please fill the data properly");
+    }
 
-          // insert the data to database
-          db.query(sql, data, (err, result) => {
+    // before registration check if student already present
+    db.query(
+      "select email from student_registration where email=?",
+      email,
+      (err, result) => {
+        if (err) {
+          // throw err;
+          return res
+            .status(400)
+            .json("Some error occured please register again");
+        }
+        //   console.log(result, result.length);
+        if (result.length > 0) {
+          // console.log("helo hello hello");
+          return res.status(400).json("Student is already registered");
+        } else {
+          // password hashing using bcrypt
+          bcrypt.hash(password, saltRounds, (err, hash) => {
             if (err) {
-              //   throw err;
+              // throw err;
               return res
                 .status(400)
-                .json("Some error occured please registered again");
+                .json("Some error occured please register again");
             }
-            //   console.log(result);
-            return res.status(200).json("Student registedred Successfully");
+            password = hash;
+            // console.log(password);
+            let sql = "insert into student_registration set ?";
+            let data = {
+              name,
+              email,
+              phone,
+              address,
+              city,
+              state,
+              pincode,
+              batch,
+              admission_date: admissionDate,
+              personal_mentor: personalMentor,
+              password,
+            };
+
+            // insert the data to database
+            db.query(sql, data, (err, result) => {
+              if (err) {
+                //   throw err;
+                return res
+                  .status(400)
+                  .json("Some error occured please registered again");
+              }
+              //   console.log(result);
+              return res.status(200).json("Student registedred Successfully");
+            });
           });
-        });
+        }
       }
-    }
-  );
+    );
+  }
 });
 
 //route for teacher registration
@@ -386,10 +395,19 @@ router.post("/login", (req, res) => {
   // console.log(result);
 });
 
-//routes for common dashboard
+//route for common dashboard
 router.get("/dashboard", authenticate, async (req, res) => {
-  console.log("This is dashboard");
+  // console.log("This is dashboard");
+  // send the user information to the frontend to show the data on dashboard
   res.status(200).json({ user: req.user });
+});
+
+//route to get all the registered students
+router.get("/admin/studentDetails", authenticate, async (req, res) => {
+  // console.log(req);
+
+  // send the user information to the frontend to show the data on dashboar
+  res.status(200).json({ message: "Reached the routes" });
 });
 
 module.exports = router;

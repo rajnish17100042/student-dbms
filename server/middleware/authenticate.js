@@ -42,7 +42,7 @@ const authenticate = async (req, res, next) => {
       if (err) {
         throw err;
       }
-      console.log(result);
+      // console.log(result);
 
       if (!result.length) {
         // means authentication failed
@@ -50,7 +50,9 @@ const authenticate = async (req, res, next) => {
         return res.status(400).json("Something is missing");
       }
       //if everything is fine then call next function which will do the registration process
-      req.user = result;
+      // console.log(req);
+      req.user = result; //explicitly adding user property to req object ... so that we can use it in other get routes after authentication
+      req.role = role;
       next();
     });
   } catch (err) {

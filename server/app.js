@@ -1,7 +1,7 @@
 // include express module in our app
 const express = require("express");
 
-// now create an app variable which will store all the functions and methods defined by the express module
+// new create the express server
 const app = express();
 
 const dotenv = require("dotenv");

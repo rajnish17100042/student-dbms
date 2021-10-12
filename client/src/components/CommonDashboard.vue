@@ -11,24 +11,31 @@
           </li>
         </ul>
         <div class="social_media">
-          <a href="#"><i class="fab fa-facebook-f"></i></a>
-          <a href="#"><i class="fab fa-twitter"></i></a>
-          <a href="#"><i class="fab fa-instagram"></i></a>
+          <a href="#"><i class="fas fa-facebook-f"></i></a>
+          <a href="#"><i class="fas fa-twitter"></i></a>
+          <a href="#"><i class="fas fa-instagram"></i></a>
         </div>
       </div>
       <div class="main_content">
         <div class="header">
-          Welcome <strong>{{ name }}</strong
-          >!! Have a nice day.
+          Welcome <strong>{{ name }}</strong> !! Have a nice day.
         </div>
       </div>
     </div>
+
+    <!-- admin dashboard  -->
+    <AdminDashboard />
   </div>
 </template>
 
 <script>
+import AdminDashboard from "./admin/AdminDashboard.vue";
 export default {
   name: "CommonDashboard",
+  components: {
+    AdminDashboard
+  },
+
   data() {
     return {
       name: "",
@@ -69,9 +76,9 @@ export default {
         this.phone = phone;
       }
     } catch (err) {
-      console.log(err);
+      // console.log(err);
       // in case of any error redirect user to the login page
-      //   history.push("/login");
+      this.$router.push({ name: "Login" });
     }
   }
 };
