@@ -452,7 +452,7 @@ router.get("/loginAuthentication", authenticate, async (req, res) => {
       Success: "User is already logged In ...redirecting to dashboard",
     });
   } else {
-    return res.status(200).json({ success: "Rendering registration page" });
+    return res.status(400).json({ alert: "Rendering login page" }); //will never encountered the else condition ... user is not present then it authenticate middleawre itself takes care of it.   ...verified
   }
 });
 
