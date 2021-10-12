@@ -331,7 +331,7 @@ router.post("/login", (req, res) => {
 
   // server side validation
   if (!email || !password || !role) {
-    return res.status(400).json("Please fill the data correctly");
+    return res.status(400).json({ error: "Please fill the data correctly" });
   }
   // now based on the role choose the table for student,teacher or admin
   if (role === "student") {
