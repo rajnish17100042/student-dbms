@@ -441,4 +441,19 @@ router.get(
   }
 );
 
+//route for login authentication  .. if user is already logged in then send to dashboard
+router.get("/loginAuthentication", authenticate, async (req, res) => {
+  // console.log("reached the route");
+  // console.log(req.user.length);
+  // console.log(req.role);
+
+  if (req.user) {
+    return res.status(200).json({
+      Success: "User is already logged In ...redirecting to dashboard",
+    });
+  } else {
+    return res.status(200).json({ success: "Rendering registration page" });
+  }
+});
+
 module.exports = router;
