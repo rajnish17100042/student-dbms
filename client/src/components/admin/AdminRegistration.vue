@@ -187,8 +187,8 @@ export default {
           this.name = this.email = this.phone = this.address = this.city = this.state = this.pincode = this.joiningDate = this.password = this.cpassword =
             "";
 
-          // send admin to home page
-          this.$router.push({ name: "Home" });
+          // send admin to common dashbard
+          this.$router.push({ name: "CommonDashboard" });
         }
       } catch (err) {
         // console.log(err);

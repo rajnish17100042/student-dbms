@@ -216,7 +216,7 @@ export default {
 
           // send admin to home page
           // this.$router.push({ name: "Home" });
-          //go to admindashboard
+          // send admin to common dashbard
           this.$router.push({ name: "CommonDashboard" });
           //wanted to send to the AdminDashboard but having some problem ....topological ordering
         }
