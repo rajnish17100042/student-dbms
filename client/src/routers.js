@@ -4,7 +4,7 @@ import TeacherRegistration from "./components/admin/TeacherRegistration.vue";
 import StudentRegistration from "./components/admin/StudentRegistration.vue";
 import Home from "./components/Home.vue";
 import Login from "./components/Login.vue";
-import CommonDashboard from "./components/CommonDashboard.vue";
+import AdminDashboard from "./components/admin/AdminDashboard.vue";
 import RegistrationDetails from "./components/admin/RegistrationDetails.vue";
 
 import { createRouter, createWebHistory } from "vue-router";
@@ -45,8 +45,8 @@ const routes = [
   // route  for common dashboard
 
   {
-    name: "CommonDashboard",
-    component: CommonDashboard,
+    name: "AdminDashboard",
+    component: AdminDashboard,
     path: "/adminDashboard",
   },
   // route  for admin dashboard

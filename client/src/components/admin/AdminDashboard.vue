@@ -29,9 +29,9 @@
 </template>
 
 <script>
-import RegistrationDetails from "./admin/RegistrationDetails.vue";
+import RegistrationDetails from "./RegistrationDetails.vue";
 export default {
-  name: "CommonDashboard",
+  name: "AdminDashboard",
   components: {
     RegistrationDetails
   },
@@ -85,5 +85,5 @@ export default {
 </script>
 
 <style scoped>
-@import "../assets/css/commonDashboardStyle.css";
+@import "../../assets/css/commonDashboardStyle.css";
 </style>

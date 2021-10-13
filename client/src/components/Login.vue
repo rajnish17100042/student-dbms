@@ -124,7 +124,7 @@ export default {
         }
         // send user to respective dashboard after successful login
         if (this.role === "admin") {
-          this.$router.push({ name: "CommonDashboard" });
+          this.$router.push({ name: "AdminDashboard" });
         } else if (this.role === "student") {
           window.alert("redirecting to Student Dashboard");
         } else if (this.role === "teacher") {
