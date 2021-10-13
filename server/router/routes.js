@@ -428,7 +428,7 @@ router.get("/admin/registrationDetails", authenticate, async (req, res) => {
   } else {
     // get all students
     const sql1 =
-      "select id,name,email,phone,batch,personal_mentor from student_registration limit 3";
+      "select id,name,email,phone,batch,personal_mentor from student_registration limit 5";
     db.query(sql1, (err, result1) => {
       if (err) {
         //  throw err
@@ -443,7 +443,7 @@ router.get("/admin/registrationDetails", authenticate, async (req, res) => {
 
     // get all teacher
     const sql2 =
-      "select id,name,email,phone,qualification,experience from teacher_registration limit 3";
+      "select id,name,email,phone,qualification,experience from teacher_registration limit 5";
     db.query(sql2, (err, result2) => {
       if (err) {
         //  throw err
@@ -457,7 +457,7 @@ router.get("/admin/registrationDetails", authenticate, async (req, res) => {
     });
 
     // get all admins
-    const sql3 = "select id,name,email,phone from admin_registration limit 3";
+    const sql3 = "select id,name,email,phone from admin_registration limit 5";
     db.query(sql3, (err, result3) => {
       if (err) {
         //  throw err

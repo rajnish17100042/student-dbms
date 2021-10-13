@@ -84,7 +84,7 @@ export default {
         window.alert("redirecting to the student dashboard");
       } else if (data === "admin") {
         // window.alert("redirecting to the admin dashboard");
-        this.$router.push({ name: "CommonDashboard" });
+        this.$router.push({ name: "AdminDashboard" });
       }
     } catch (err) {
       // console.log(err);
