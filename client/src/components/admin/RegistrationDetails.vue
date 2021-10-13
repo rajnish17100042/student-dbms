@@ -22,7 +22,11 @@
             <td>{{ student.phone }}</td>
             <td>{{ student.batch }}</td>
             <td>{{ student.personal_mentor }}</td>
-            <td @click="deleteUser">Delete user</td>
+            <td>
+              <router-link :to="'/updateStudent/' + student.id"
+                >Update</router-link
+              >
+            </td>
           </tr>
         </table>
       </div>
