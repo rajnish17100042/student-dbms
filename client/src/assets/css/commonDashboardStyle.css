@@ -106,7 +106,7 @@ body{
 }
 
 
-/* css for admin dashboard  */
+/* css for displaying data in the form of table */
 #customers {
   font-family: Arial, Helvetica, sans-serif;
   border-collapse: collapse;

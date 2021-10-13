@@ -327,7 +327,7 @@ router.post("/login", (req, res) => {
   // destructuring of data
   let { email, password, role } = req.body;
   const data = req.body;
-  console.log(data);
+  // console.log(data);
 
   // server side validation
   if (!email || !password || !role) {
@@ -505,6 +505,13 @@ router.get("/loginAuthentication", authenticate, async (req, res) => {
   } else {
     return res.status(400).json({ alert: "Rendering login page" }); //will never encountered the else condition ... user is not present then it authenticate middleawre itself takes care of it.   ...verified
   }
+});
+
+// route for logout
+router.get("/logout", authenticate, (req, res) => {
+  // console.log("reaching to logout route");
+  res.clearCookie("accessToken");
+  res.status(200).json({ success: "Logged out successfully" });
 });
 
 module.exports = router;

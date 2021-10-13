@@ -10,15 +10,12 @@
             <a><i class="fas fa-phone"></i>{{ phone }}</a>
           </li>
         </ul>
-        <div class="social_media">
-          <a href="#"><i class="fas fa-facebook-f"></i></a>
-          <a href="#"><i class="fas fa-twitter"></i></a>
-          <a href="#"><i class="fas fa-instagram"></i></a>
-        </div>
+        <!-- <button @click="logout">Logout</button>      not working here -->
       </div>
       <div class="main_content">
         <div class="header">
           Welcome <strong>{{ name }}</strong> !! Have a nice day.
+          <button @click="logout">Logout</button>
         </div>
       </div>
     </div>
@@ -44,8 +41,34 @@ export default {
     };
   },
   methods: {
-    logout() {
-      window.alert("logout");
+    async logout() {
+      // console.log("logout");
+      try {
+        const response = await fetch("http://localhost:5000/logout", {
+          method: "GET",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json"
+          },
+          credentials: "include"
+        });
+        const data = await response.json();
+
+        // console.log(response);
+        console.log(data);
+
+        // check the status code sent from the backend
+        if (response.status !== 200 || !data) {
+          window.alert("Some Error occured! Please Try again");
+        } else {
+          console.log("logged out");
+          this.$router.push({ name: "Login" });
+        }
+      } catch (err) {
+        // console.log(err);
+
+        window.alert("Some Error occured! Please Try again");
+      }
     }
   },
   async mounted() {
@@ -84,6 +107,6 @@ export default {
 };
 </script>
 
-<style scoped>
+<style>
 @import "../../assets/css/commonDashboardStyle.css";
 </style>
