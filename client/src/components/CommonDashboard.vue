@@ -24,16 +24,16 @@
     </div>
 
     <!-- admin dashboard  -->
-    <AdminDashboard />
+    <RegistrationDetails />
   </div>
 </template>
 
 <script>
-import AdminDashboard from "./admin/AdminDashboard.vue";
+import RegistrationDetails from "./admin/RegistrationDetails.vue";
 export default {
   name: "CommonDashboard",
   components: {
-    AdminDashboard
+    RegistrationDetails
   },
 
   data() {
@@ -50,7 +50,7 @@ export default {
   },
   async mounted() {
     try {
-      const response = await fetch("http://localhost:5000/dashboard", {
+      const response = await fetch("http://localhost:5000/admin/dashboard", {
         method: "GET",
         headers: {
           Accept: "application/json",

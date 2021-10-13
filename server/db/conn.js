@@ -8,8 +8,10 @@ const cred = {
   database: "student-dbms",
 };
 
-let db = mysql.createConnection(cred);
+//to use more than one query
+let db = mysql.createConnection({ multipleStatements: true });
 
+db = mysql.createConnection(cred);
 db.connect((err) => {
   if (err) {
     throw err;

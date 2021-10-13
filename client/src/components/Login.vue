@@ -78,9 +78,12 @@ export default {
         // return window.alert("Sorry! Something is missing");
         // in case of any error redirect user to the login page
         this.$router.push({ name: "Login" });
-      } else {
-        // display the data on the dashboard
-        console.log("rendering Login  page");
+      } else if (data === "teacher") {
+        window.alert("redirecting to the teacher dashboard");
+      } else if (data === "student") {
+        window.alert("redirecting to the student dashboard");
+      } else if (data === "admin") {
+        // window.alert("redirecting to the admin dashboard");
         this.$router.push({ name: "CommonDashboard" });
       }
     } catch (err) {
@@ -118,16 +121,18 @@ export default {
         console.log(data);
         if (response.status !== 200 || !data) {
           window.alert("Invalid Credentials");
-        } else {
-          window.alert("Logged In  successfully");
-
-          // clear all the input fields
-          this.email = this.role = this.password = "";
-
-          // send user to home page after successful login
-
-          this.$router.push({ name: "CommonDashboard" });
         }
+        // send user to respective dashboard after successful login
+        if (this.role === "admin") {
+          this.$router.push({ name: "CommonDashboard" });
+        } else if (this.role === "student") {
+          window.alert("redirecting to Student Dashboard");
+        } else if (this.role === "teacher") {
+          window.alert("redirecting to Teacher Dashboard");
+        }
+
+        // clear all the input fields
+        this.email = this.role = this.password = "";
       } catch (err) {
         // console.log(err);
         window.alert("some Error occured! Please try again");

@@ -327,7 +327,7 @@ router.post("/login", (req, res) => {
   // destructuring of data
   let { email, password, role } = req.body;
   const data = req.body;
-  // console.log(data);
+  console.log(data);
 
   // server side validation
   if (!email || !password || !role) {
@@ -347,6 +347,9 @@ router.post("/login", (req, res) => {
   db.query(sql, email, async (err, result) => {
     // if user is not found then the result will be an empty array
     // console.log(result);
+    if (!result) {
+      return res.status(400).json("Some error occured! Please try again");
+    }
     if (result.length) {
       dbpassword = result[0].password;
       dbemail = result[0].email;
@@ -410,21 +413,70 @@ router.post("/login", (req, res) => {
 });
 
 //route for common dashboard
-router.get("/dashboard", authenticate, async (req, res) => {
+router.get("/admin/dashboard", authenticate, async (req, res) => {
   // console.log("This is dashboard");
   // send the user information to the frontend to show the data on dashboard
-  res.status(200).json({ user: req.user });
+  return res.status(200).json({ user: req.user });
 });
 
 //route to get all the registered students
-router.get("/admin/studentDetails", authenticate, async (req, res) => {
-  // console.log(req);
+router.get("/admin/registrationDetails", authenticate, async (req, res) => {
+  var results = []; //global variable
+  // console.log(req.role);
+  if (req.role !== "admin") {
+    return res.status(400).json({ error: "Do not have proper permission" });
+  } else {
+    // get all students
+    const sql1 =
+      "select id,name,email,phone,batch,personal_mentor from student_registration limit 3";
+    db.query(sql1, (err, result1) => {
+      if (err) {
+        //  throw err
+        return res.status(400).json({ error: "Error occured" });
+      } else {
+        // console.log(result1);
+        results.push(result1);
+        // console.log(results);
+        // return res.status(200).json({ result });
+      }
+    });
 
-  // send the user information to the frontend to show the data on dashboar
-  res.status(200).json({ message: "Reached the routes" });
+    // get all teacher
+    const sql2 =
+      "select id,name,email,phone,qualification,experience from teacher_registration limit 3";
+    db.query(sql2, (err, result2) => {
+      if (err) {
+        //  throw err
+        return res.status(400).json({ error: "Error occured" });
+      } else {
+        // console.log(result2);
+        results.push(result2);
+        // console.log(results);
+        // return res.status(200).json({ result });
+      }
+    });
+
+    // get all admins
+    const sql3 = "select id,name,email,phone from admin_registration limit 3";
+    db.query(sql3, (err, result3) => {
+      if (err) {
+        //  throw err
+        return res.status(400).json({ error: "Error occured" });
+      } else {
+        // console.log(result3);
+        results.push(result3);
+        // console.log(results);
+        // return res.status(200).json({ results });
+      }
+      // console.log(results);
+
+      // send all the results to the client
+      return res.status(200).json({ results });
+    });
+  }
 });
 
-//route to authenticate befor rendering registration page
+//route to authenticate befor rendering registration pages
 router.get(
   "/admin/registrationAuthentication",
   authenticate,
@@ -448,9 +500,8 @@ router.get("/loginAuthentication", authenticate, async (req, res) => {
   // console.log(req.role);
 
   if (req.user) {
-    return res.status(200).json({
-      Success: "User is already logged In ...redirecting to dashboard",
-    });
+    // send the role to the client to redirect to correct dashboard
+    return res.status(200).json(req.role);
   } else {
     return res.status(400).json({ alert: "Rendering login page" }); //will never encountered the else condition ... user is not present then it authenticate middleawre itself takes care of it.   ...verified
   }
