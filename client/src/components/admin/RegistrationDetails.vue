@@ -105,8 +105,8 @@ export default {
       );
       const data = await response.json(); //parese the responses as json
 
-      console.log(response);
-      console.log(data);
+      // console.log(response);
+      // console.log(data);
 
       // check the status code sent from the backend
       if (response.status !== 200 || !data) {

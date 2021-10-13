@@ -139,8 +139,8 @@ export default {
       );
       const data = await response.json();
 
-      console.log(response);
-      console.log(data);
+      // console.log(response);
+      // console.log(data);
 
       // check the status code sent from the backend
       if (response.status !== 200 || !data) {
@@ -214,10 +214,8 @@ export default {
           this.name = this.email = this.phone = this.address = this.city = this.state = this.pincode = this.batch = this.admissionDate = this.personalMentor = this.password = this.cpassword =
             "";
 
-          // send admin to home page
-          // this.$router.push({ name: "Home" });
           // send admin to common dashbard
-          this.$router.push({ name: "CommonDashboard" });
+          this.$router.push({ name: "AdminDashboard" });
           //wanted to send to the AdminDashboard but having some problem ....topological ordering
         }
       } catch (err) {

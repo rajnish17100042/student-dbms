@@ -221,7 +221,7 @@ export default {
             "";
 
           // send admin to common dashbard
-          this.$router.push({ name: "CommonDashboard" });
+          this.$router.push({ name: "AdminDashboard" });
         }
       } catch (err) {
         // console.log(err);

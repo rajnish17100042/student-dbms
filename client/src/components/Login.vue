@@ -123,7 +123,7 @@ export default {
           window.alert("Invalid Credentials");
         }
         // send user to respective dashboard after successful login
-        if (this.role === "admin") {
+        else if (this.role === "admin") {
           this.$router.push({ name: "AdminDashboard" });
         } else if (this.role === "student") {
           window.alert("redirecting to Student Dashboard");

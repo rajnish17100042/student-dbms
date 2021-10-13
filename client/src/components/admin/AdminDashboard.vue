@@ -16,6 +16,9 @@
         <div class="header">
           Welcome <strong>{{ name }}</strong> !! Have a nice day.
           <button @click="logout">Logout</button>
+          <button @click="registerStudent">Register Student</button>
+          <button @click="registerTeacher">Register Teacher</button>
+          <button @click="registerAdmin">Register Admin</button>
         </div>
       </div>
     </div>
@@ -67,6 +70,27 @@ export default {
       } catch (err) {
         // console.log(err);
 
+        window.alert("Some Error occured! Please Try again");
+      }
+    },
+    async registerStudent() {
+      try {
+        this.$router.push({ name: "StudentRegistration" });
+      } catch (err) {
+        window.alert("Some Error occured! Please Try again");
+      }
+    },
+    async registerTeacher() {
+      try {
+        this.$router.push({ name: "TeacherRegistration" });
+      } catch (err) {
+        window.alert("Some Error occured! Please Try again");
+      }
+    },
+    async registerAdmin() {
+      try {
+        this.$router.push({ name: "AdminRegistration" });
+      } catch (err) {
         window.alert("Some Error occured! Please Try again");
       }
     }
