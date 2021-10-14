@@ -123,10 +123,8 @@ export default {
         }
       );
       const data = await response.json();
-
       console.log(response);
       console.log(data[0]);
-
       // check the status code sent from the backend
       if (response.status !== 200 || !data) {
         // return window.alert("Sorry! Something is missing");
@@ -137,11 +135,9 @@ export default {
       }
     } catch (err) {
       // console.log(err);
-
       this.$router.push({ name: "AdminDashboard" });
     }
   },
-
   methods: {
     async updateStudent() {
       try {
@@ -166,7 +162,6 @@ export default {
           window.alert("something went wrong");
         } else {
           window.alert("Student updated successfully");
-
           // send admin to  dashbard
           this.$router.push({ name: "AdminDashboard" });
         }

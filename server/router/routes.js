@@ -192,6 +192,59 @@ router.patch("/registerStudent/:id", authenticate, async (req, res) => {
   }
 });
 
+//route to update student password
+router.patch("/updateStudentPassword/:id", authenticate, async (req, res) => {
+  const data = req.body;
+  const id = req.params.id;
+  // console.log(data);
+  const { currentPassword, newPassword } = data;
+  try {
+    // first check if the password saved in the database matches with the current password
+    const sql = `select password from student_registration where id=${id}`;
+    db.query(sql, async (err, result) => {
+      if (err) {
+        // throw err
+        return res.status(400).json({ error: "Some Error Occured!" });
+      } else {
+        // console.log(result);
+        const dbpassword = result[0].password;
+        // console.log(dbpassword);
+        // now compare the current password and the password stored in database
+        const passwordMatch = await bcrypt.compare(currentPassword, dbpassword);
+        // console.log(passwordMatch);
+        if (!passwordMatch) {
+          return res.status(400).json({ error: "Some Error Occured!" });
+        } else {
+          // update the password of student
+          // first password hashing  is done
+          const hash = await bcrypt.hash(newPassword, saltRounds);
+          // console.log(hash);
+          if (!hash) {
+            return res.status(400).json({ error: "Some Error Occured!" });
+          } else {
+            // store hash in database with proper id matching
+            const sql = `update student_registration set password=? where id=${id}`;
+            db.query(sql, hash, (err, result) => {
+              if (err) {
+                // throw err
+                return res.status(400).json({ error: "Some Error Occured!" });
+              } else if (!result) {
+                return res.status(400).json({ error: "Some Error Occured!" });
+              } else {
+                return res
+                  .status(200)
+                  .json({ Success: "Password updated successfully!" });
+              }
+            });
+          }
+        }
+      }
+    });
+  } catch (err) {
+    // throw err
+    return res.status(400).json({ error: "Some Error Occured!" });
+  }
+});
 //route to delete a student
 router.delete("/registerStudent/:id", authenticate, async (req, res) => {
   const id = req.params.id;

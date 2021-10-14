@@ -3,6 +3,7 @@ import AdminRegistration from "./components/admin/AdminRegistration.vue";
 import TeacherRegistration from "./components/admin/TeacherRegistration.vue";
 import StudentRegistration from "./components/admin/StudentRegistration.vue";
 import UpdateStudent from "./components/admin/UpdateStudent.vue";
+import UpdateStudentPassword from "./components/admin/UpdateStudentPassword.vue";
 import DeleteStudent from "./components/admin/DeleteStudent.vue";
 import Home from "./components/Home.vue";
 import Login from "./components/Login.vue";
@@ -48,6 +49,12 @@ const routes = [
     name: "UpdateStudent",
     component: UpdateStudent,
     path: "/updateStudent/:id",
+  },
+  // route to update student password
+  {
+    name: "UpdateStudentPassword",
+    component: UpdateStudentPassword,
+    path: "/updateStudentPassword/:id",
   },
   // route to delete student
   {
