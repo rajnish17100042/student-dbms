@@ -3,6 +3,7 @@ import AdminRegistration from "./components/admin/AdminRegistration.vue";
 import TeacherRegistration from "./components/admin/TeacherRegistration.vue";
 import StudentRegistration from "./components/admin/StudentRegistration.vue";
 import UpdateStudent from "./components/admin/UpdateStudent.vue";
+import DeleteStudent from "./components/admin/DeleteStudent.vue";
 import Home from "./components/Home.vue";
 import Login from "./components/Login.vue";
 import AdminDashboard from "./components/admin/AdminDashboard.vue";
@@ -47,6 +48,12 @@ const routes = [
     name: "UpdateStudent",
     component: UpdateStudent,
     path: "/updateStudent/:id",
+  },
+  // route to delete student
+  {
+    name: "DeleteStudent",
+    component: DeleteStudent,
+    path: "/deleteStudent/:id",
   },
 
   // route  for common dashboard

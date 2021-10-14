@@ -192,6 +192,28 @@ router.patch("/registerStudent/:id", authenticate, async (req, res) => {
   }
 });
 
+//route to delete a student
+router.delete("/registerStudent/:id", authenticate, async (req, res) => {
+  const id = req.params.id;
+  // console.log(req.params);
+  console.log(id);
+  try {
+    const sql = `delete from student_registration where id=${id}`;
+    db.query(sql, (err, result) => {
+      if (err) {
+        // throw err;
+        return res.status(400).json({ error: "Some Error Occured!" });
+      } else {
+        console.log(result);
+        return res.status(200).json(result);
+      }
+    });
+  } catch (err) {
+    // throw err;
+    return res.status(400).json({ error: "Some Error Occured!" });
+  }
+});
+
 //route for teacher registration
 router.post("/registerTeacher", authenticate, (req, res) => {
   // console.log(req.user);

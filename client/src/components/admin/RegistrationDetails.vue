@@ -55,7 +55,7 @@
             <td>{{ teacher.phone }}</td>
             <td>{{ teacher.qualification }}</td>
             <td>{{ teacher.experience }}</td>
-            <td @click="deleteUser">Delete user</td>
+            <td>Delete user</td>
           </tr>
         </table>
       </div>
@@ -78,7 +78,7 @@
             <td>{{ admin.name }}</td>
             <td>{{ admin.email }}</td>
             <td>{{ admin.phone }}</td>
-            <td @click="deleteUser">Delete user</td>
+            <td>Delete user</td>
           </tr>
         </table>
       </div>
