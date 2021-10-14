@@ -24,8 +24,11 @@
             <td>{{ student.personal_mentor }}</td>
             <td>
               <router-link :to="'/updateStudent/' + student.id"
-                >Update</router-link
-              >
+                ><i class="fas fa-edit"></i
+              ></router-link>
+              <router-link :to="'/deleteStudent/' + student.id"
+                ><i class="fas fa-trash" style="padding:0px 20px"></i
+              ></router-link>
             </td>
           </tr>
         </table>
