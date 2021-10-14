@@ -119,6 +119,79 @@ router.post("/registerStudent", authenticate, (req, res) => {
   }
 });
 
+//creating route to get data of a particular student based on the id of the student
+
+router.get("/registerStudent/:id", authenticate, async (req, res) => {
+  const id = req.params.id;
+  // console.log(id);
+  try {
+    const sql = `select * from student_registration where id=${id}`;
+    db.query(sql, (err, result) => {
+      if (err) {
+        // throw err
+        return res.status(400).json({ error: "Some Error Occured!" });
+      } else {
+        // console.log(result);
+        return res.status(200).json(result);
+      }
+    });
+  } catch (err) {
+    return res.status(400).json({ error: "Some Error Occured!" });
+  }
+});
+
+//creating route to update data of a particular student based on the id of the student
+
+router.patch("/registerStudent/:id", authenticate, async (req, res) => {
+  const id = req.params.id;
+  const data = req.body;
+  console.log(data);
+
+  const {
+    name,
+    email,
+    phone,
+    address,
+    city,
+    state,
+    pincode,
+    batch,
+    admission_date,
+    personal_mentor,
+  } = data;
+
+  try {
+    console.log(id);
+    const sql = `update student_registration set name=?,email=?,phone=?,address=?,city=?,state=?,pincode=?,batch=?,admission_date=?,personal_mentor=? where id=${id}`;
+    db.query(
+      sql,
+      [
+        name,
+        email,
+        phone,
+        address,
+        city,
+        state,
+        pincode,
+        batch,
+        admission_date,
+        personal_mentor,
+      ],
+      (err, result) => {
+        if (err) {
+          throw err;
+          // return res.status(400).json({ error: "Some Error Occured!" });
+        } else {
+          console.log(result);
+          return res.status(200).json(result);
+        }
+      }
+    );
+  } catch (err) {
+    return res.status(400).json({ error: "Some Error Occured!" });
+  }
+});
+
 //route for teacher registration
 router.post("/registerTeacher", authenticate, (req, res) => {
   // console.log(req.user);
