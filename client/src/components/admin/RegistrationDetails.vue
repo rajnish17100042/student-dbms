@@ -29,6 +29,9 @@
               <router-link :to="'/deleteStudent/' + student.id"
                 ><i class="fas fa-trash" style="padding:0px 20px"></i
               ></router-link>
+              <router-link :to="'/updateStudentPassword/' + student.id"
+                ><i class="fas fa-key"></i
+              ></router-link>
             </td>
           </tr>
         </table>
