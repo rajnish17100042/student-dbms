@@ -119,7 +119,7 @@ router.post("/registerStudent", authenticate, (req, res) => {
   }
 });
 
-//creating route to get data of a particular student based on the id of the student
+//creating route to get data of a particular student based on the id of the student to dislpay on edit page
 
 router.get("/registerStudent/:id", authenticate, async (req, res) => {
   const id = req.params.id;
@@ -245,6 +245,7 @@ router.patch("/updateStudentPassword/:id", authenticate, async (req, res) => {
     return res.status(400).json({ error: "Some Error Occured!" });
   }
 });
+
 //route to delete a student
 router.delete("/registerStudent/:id", authenticate, async (req, res) => {
   const id = req.params.id;
@@ -367,6 +368,157 @@ router.post("/registerTeacher", authenticate, (req, res) => {
         }
       }
     );
+  }
+});
+
+//creating route to get data of a particular teacher based on the id of the student to dislpay on edit page
+
+router.get("/registerTeacher/:id", authenticate, async (req, res) => {
+  const id = req.params.id;
+  // console.log(id);
+  try {
+    const sql = `select * from teacher_registration where id=${id}`;
+    db.query(sql, (err, result) => {
+      if (err) {
+        // throw err
+        return res.status(400).json({ error: "Some Error Occured!" });
+      } else {
+        // console.log(result);
+        return res.status(200).json(result);
+      }
+    });
+  } catch (err) {
+    return res.status(400).json({ error: "Some Error Occured!" });
+  }
+});
+
+//creating route to update data of a particular teacher based on the id of the teacher
+
+router.patch("/registerteacher/:id", authenticate, async (req, res) => {
+  const id = req.params.id;
+  const data = req.body;
+  console.log(data);
+
+  const {
+    name,
+    email,
+    phone,
+    address,
+    city,
+    state,
+    pincode,
+    qualification,
+    experience,
+    joining_date,
+    salary,
+  } = data;
+
+  try {
+    console.log(id);
+    const sql = `update teacher_registration set name=?,email=?,phone=?,address=?,city=?,state=?,pincode=?,qualification=?,experience=?,joining_date=?,salary=? where id=${id}`;
+    db.query(
+      sql,
+      [
+        name,
+        email,
+        phone,
+        address,
+        city,
+        state,
+        pincode,
+        qualification,
+        experience,
+        joining_date,
+        salary,
+      ],
+      (err, result) => {
+        if (err) {
+          throw err;
+          // return res.status(400).json({ error: "Some Error Occured!" });
+        } else {
+          console.log(result);
+          return res.status(200).json(result);
+        }
+      }
+    );
+  } catch (err) {
+    return res.status(400).json({ error: "Some Error Occured!" });
+  }
+});
+
+//route to update teacher password
+router.patch("/updateTeacherPassword/:id", authenticate, async (req, res) => {
+  const data = req.body;
+  const id = req.params.id;
+  // console.log(data);
+  const { currentPassword, newPassword } = data;
+  try {
+    // first check if the password saved in the database matches with the current password
+    const sql = `select password from teacher_registration where id=${id}`;
+    db.query(sql, async (err, result) => {
+      if (err) {
+        // throw err
+        return res.status(400).json({ error: "Some Error Occured!" });
+      } else {
+        // console.log(result);
+        const dbpassword = result[0].password;
+        // console.log(dbpassword);
+        // now compare the current password and the password stored in database
+        const passwordMatch = await bcrypt.compare(currentPassword, dbpassword);
+        // console.log(passwordMatch);
+        if (!passwordMatch) {
+          return res.status(400).json({ error: "Some Error Occured!" });
+        } else {
+          // update the password of teacher
+          // first password hashing  is done
+          const hash = await bcrypt.hash(newPassword, saltRounds);
+          // console.log(hash);
+          if (!hash) {
+            return res.status(400).json({ error: "Some Error Occured!" });
+          } else {
+            // store hash in database with proper id matching
+            const sql = `update teacher_registration set password=? where id=${id}`;
+            db.query(sql, hash, (err, result) => {
+              if (err) {
+                // throw err
+                return res.status(400).json({ error: "Some Error Occured!" });
+              } else if (!result) {
+                return res.status(400).json({ error: "Some Error Occured!" });
+              } else {
+                return res
+                  .status(200)
+                  .json({ Success: "Password updated successfully!" });
+              }
+            });
+          }
+        }
+      }
+    });
+  } catch (err) {
+    // throw err
+    return res.status(400).json({ error: "Some Error Occured!" });
+  }
+});
+
+//route to delete a teacher
+router.delete("/registerTeacher/:id", authenticate, async (req, res) => {
+  const id = req.params.id;
+  // console.log(req.params);
+  console.log(id);
+  try {
+    const sql = `delete from teacher_registration where id=${id}`;
+    db.query(sql, (err, result) => {
+      if (err) {
+        // throw err;
+        return res.status(400).json({ error: "Some Error Occured!" });
+      } else {
+        console.log(result);
+        return res.status(200).json(result);
+      }
+    });
+  } catch (err) {
+    // throw err;
+    return res.status(400).json({ error: "Some Error Occured!" });
   }
 });
 

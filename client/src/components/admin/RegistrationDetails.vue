@@ -58,7 +58,17 @@
             <td>{{ teacher.phone }}</td>
             <td>{{ teacher.qualification }}</td>
             <td>{{ teacher.experience }}</td>
-            <td>Delete user</td>
+            <td>
+              <router-link :to="'/updateTeacher/' + teacher.id"
+                ><i class="fas fa-edit"></i
+              ></router-link>
+              <router-link :to="'/deleteTeacher/' + teacher.id"
+                ><i class="fas fa-trash" style="padding:0px 20px"></i
+              ></router-link>
+              <router-link :to="'/updateTeacherPassword/' + teacher.id"
+                ><i class="fas fa-key"></i
+              ></router-link>
+            </td>
           </tr>
         </table>
       </div>

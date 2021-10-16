@@ -4,14 +4,14 @@
 
 <script>
 export default {
-  name: "DeleteStudent",
+  name: "DeleteTeacher",
 
   async beforeCreate() {
     try {
       const id = this.$route.params.id;
       console.log(id);
       const response = await fetch(
-        "http://localhost:5000/registerStudent/" + id,
+        "http://localhost:5000/registerTeacher/" + id,
         {
           method: "DELETE",
           headers: {
@@ -32,7 +32,7 @@ export default {
 
         this.$router.push({ name: "AdminDashboard" });
       } else {
-        window.alert("Student deleted successfully");
+        window.alert("Teacher deleted successfully");
         this.$router.push({ name: "AdminDashboard" });
       }
     } catch (err) {

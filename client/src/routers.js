@@ -3,8 +3,11 @@ import AdminRegistration from "./components/admin/AdminRegistration.vue";
 import TeacherRegistration from "./components/admin/TeacherRegistration.vue";
 import StudentRegistration from "./components/admin/StudentRegistration.vue";
 import UpdateStudent from "./components/admin/UpdateStudent.vue";
+import UpdateTeacher from "./components/admin/UpdateTeacher.vue";
 import UpdateStudentPassword from "./components/admin/UpdateStudentPassword.vue";
+import UpdateTeacherPassword from "./components/admin/UpdateTeacherPassword.vue";
 import DeleteStudent from "./components/admin/DeleteStudent.vue";
+import DeleteTeacher from "./components/admin/DeleteTeacher.vue";
 import Home from "./components/Home.vue";
 import Login from "./components/Login.vue";
 import AdminDashboard from "./components/admin/AdminDashboard.vue";
@@ -50,17 +53,35 @@ const routes = [
     component: UpdateStudent,
     path: "/updateStudent/:id",
   },
+  // route for update teacher
+  {
+    name: "UpdateTeacher",
+    component: UpdateTeacher,
+    path: "/updateTeacher/:id",
+  },
   // route to update student password
   {
     name: "UpdateStudentPassword",
     component: UpdateStudentPassword,
     path: "/updateStudentPassword/:id",
   },
+  // route to update teacher password
+  {
+    name: "UpdateTeacherPassword",
+    component: UpdateTeacherPassword,
+    path: "/updateTeacherPassword/:id",
+  },
   // route to delete student
   {
     name: "DeleteStudent",
     component: DeleteStudent,
     path: "/deleteStudent/:id",
+  },
+  // route to delete teacher
+  {
+    name: "DeleteTeacher",
+    component: DeleteTeacher,
+    path: "/deleteTeacher/:id",
   },
 
   // route  for common dashboard
