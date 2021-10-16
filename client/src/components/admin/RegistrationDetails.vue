@@ -91,7 +91,17 @@
             <td>{{ admin.name }}</td>
             <td>{{ admin.email }}</td>
             <td>{{ admin.phone }}</td>
-            <td>Delete user</td>
+            <td>
+              <router-link :to="'/updateAdmin/' + admin.id"
+                ><i class="fas fa-edit"></i
+              ></router-link>
+              <router-link :to="'/deleteAdmin/' + admin.id"
+                ><i class="fas fa-trash" style="padding:0px 20px"></i
+              ></router-link>
+              <router-link :to="'/updateAdminPassword/' + admin.id"
+                ><i class="fas fa-key"></i
+              ></router-link>
+            </td>
           </tr>
         </table>
       </div>

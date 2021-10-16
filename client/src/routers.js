@@ -4,10 +4,13 @@ import TeacherRegistration from "./components/admin/TeacherRegistration.vue";
 import StudentRegistration from "./components/admin/StudentRegistration.vue";
 import UpdateStudent from "./components/admin/UpdateStudent.vue";
 import UpdateTeacher from "./components/admin/UpdateTeacher.vue";
+import UpdateAdmin from "./components/admin/UpdateAdmin.vue";
 import UpdateStudentPassword from "./components/admin/UpdateStudentPassword.vue";
 import UpdateTeacherPassword from "./components/admin/UpdateTeacherPassword.vue";
+import UpdateAdminPassword from "./components/admin/UpdateAdminPassword.vue";
 import DeleteStudent from "./components/admin/DeleteStudent.vue";
 import DeleteTeacher from "./components/admin/DeleteTeacher.vue";
+import DeleteAdmin from "./components/admin/DeleteAdmin.vue";
 import Home from "./components/Home.vue";
 import Login from "./components/Login.vue";
 import AdminDashboard from "./components/admin/AdminDashboard.vue";
@@ -59,6 +62,12 @@ const routes = [
     component: UpdateTeacher,
     path: "/updateTeacher/:id",
   },
+  // route for update admin
+  {
+    name: "UpdateAdmin",
+    component: UpdateAdmin,
+    path: "/updateAdmin/:id",
+  },
   // route to update student password
   {
     name: "UpdateStudentPassword",
@@ -70,6 +79,12 @@ const routes = [
     name: "UpdateTeacherPassword",
     component: UpdateTeacherPassword,
     path: "/updateTeacherPassword/:id",
+  },
+  // route to update admin password
+  {
+    name: "UpdateAdminPassword",
+    component: UpdateAdminPassword,
+    path: "/updateAdminPassword/:id",
   },
   // route to delete student
   {
@@ -83,15 +98,21 @@ const routes = [
     component: DeleteTeacher,
     path: "/deleteTeacher/:id",
   },
+  // route to delete admin
+  {
+    name: "DeleteAdmin",
+    component: DeleteAdmin,
+    path: "/deleteAdmin/:id",
+  },
 
-  // route  for common dashboard
+  // route  for Admin dashboard
 
   {
     name: "AdminDashboard",
     component: AdminDashboard,
     path: "/adminDashboard",
   },
-  // route  for admin dashboard
+  // route to display all registration details of student,teacher and admin on admin dashboard
 
   {
     name: "RegistrationDetails",

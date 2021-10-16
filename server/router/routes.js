@@ -141,7 +141,6 @@ router.get("/registerStudent/:id", authenticate, async (req, res) => {
 });
 
 //creating route to update data of a particular student based on the id of the student
-
 router.patch("/registerStudent/:id", authenticate, async (req, res) => {
   const id = req.params.id;
   const data = req.body;
@@ -616,6 +615,133 @@ router.post("/registerAdmin", authenticate, (req, res) => {
   }
 });
 
+//creating route to get data of a particular admin based on the id of the admin to dislpay on edit page
+
+router.get("/registerAdmin/:id", authenticate, async (req, res) => {
+  const id = req.params.id;
+  // console.log(id);
+  try {
+    const sql = `select * from admin_registration where id=${id}`;
+    db.query(sql, (err, result) => {
+      if (err) {
+        // throw err
+        return res.status(400).json({ error: "Some Error Occured!" });
+      } else {
+        // console.log(result);
+        return res.status(200).json(result);
+      }
+    });
+  } catch (err) {
+    return res.status(400).json({ error: "Some Error Occured!" });
+  }
+});
+
+//creating route to update data of a particular admin based on the id of the admin
+router.patch("/registerAdmin/:id", authenticate, async (req, res) => {
+  const id = req.params.id;
+  const data = req.body;
+  console.log(data);
+
+  const { name, email, phone, address, city, state, pincode, joining_date } =
+    data;
+
+  try {
+    console.log(id);
+    const sql = `update admin_registration set name=?,email=?,phone=?,address=?,city=?,state=?,pincode=?,joining_date=? where id=${id}`;
+    db.query(
+      sql,
+      [name, email, phone, address, city, state, pincode, joining_date],
+      (err, result) => {
+        if (err) {
+          throw err;
+          // return res.status(400).json({ error: "Some Error Occured!" });
+        } else {
+          console.log(result);
+          return res.status(200).json(result);
+        }
+      }
+    );
+  } catch (err) {
+    return res.status(400).json({ error: "Some Error Occured!" });
+  }
+});
+
+//route to update admin password
+router.patch("/updateAdminPassword/:id", authenticate, async (req, res) => {
+  const data = req.body;
+  const id = req.params.id;
+  // console.log(data);
+  const { currentPassword, newPassword } = data;
+  try {
+    // first check if the password saved in the database matches with the current password
+    const sql = `select password from admin_registration where id=${id}`;
+    db.query(sql, async (err, result) => {
+      if (err) {
+        // throw err
+        return res.status(400).json({ error: "Some Error Occured!" });
+      } else {
+        // console.log(result);
+        const dbpassword = result[0].password;
+        // console.log(dbpassword);
+        // now compare the current password and the password stored in database
+        const passwordMatch = await bcrypt.compare(currentPassword, dbpassword);
+        // console.log(passwordMatch);
+        if (!passwordMatch) {
+          return res.status(400).json({ error: "Some Error Occured!" });
+        } else {
+          // update the password of admin
+          // first password hashing  is done
+          const hash = await bcrypt.hash(newPassword, saltRounds);
+          // console.log(hash);
+          if (!hash) {
+            return res.status(400).json({ error: "Some Error Occured!" });
+          } else {
+            // store hash in database with proper id matching
+            const sql = `update admin_registration set password=? where id=${id}`;
+            db.query(sql, hash, (err, result) => {
+              if (err) {
+                // throw err
+                return res.status(400).json({ error: "Some Error Occured!" });
+              } else if (!result) {
+                return res.status(400).json({ error: "Some Error Occured!" });
+              } else {
+                return res
+                  .status(200)
+                  .json({ Success: "Password updated successfully!" });
+              }
+            });
+          }
+        }
+      }
+    });
+  } catch (err) {
+    // throw err
+    return res.status(400).json({ error: "Some Error Occured!" });
+  }
+});
+
+//route to delete a teacher
+router.delete("/registerAdmin/:id", authenticate, async (req, res) => {
+  const id = req.params.id;
+  // console.log(req.params);
+  console.log(id);
+  try {
+    const sql = `delete from admin_registration where id=${id}`;
+    db.query(sql, (err, result) => {
+      if (err) {
+        // throw err;
+        return res.status(400).json({ error: "Some Error Occured!" });
+      } else {
+        console.log(result);
+        return res.status(200).json(result);
+      }
+    });
+  } catch (err) {
+    // throw err;
+    return res.status(400).json({ error: "Some Error Occured!" });
+  }
+});
+
 // route for common login
 router.post("/login", (req, res) => {
   // global variables
@@ -712,14 +838,14 @@ router.post("/login", (req, res) => {
   // console.log(result);
 });
 
-//route for common dashboard
+//route for admin dashboard
 router.get("/admin/dashboard", authenticate, async (req, res) => {
   // console.log("This is dashboard");
   // send the user information to the frontend to show the data on dashboard
   return res.status(200).json({ user: req.user });
 });
 
-//route to get all the registered students
+//route to get all the registered students,teachers and admins
 router.get("/admin/registrationDetails", authenticate, async (req, res) => {
   var results = []; //global variable
   // console.log(req.role);
@@ -757,8 +883,9 @@ router.get("/admin/registrationDetails", authenticate, async (req, res) => {
     });
 
     // get all admins
-    const sql3 = "select id,name,email,phone from admin_registration limit 5";
-    db.query(sql3, (err, result3) => {
+    const sql3 =
+      "select id,name,email,phone from admin_registration where is_super_admin=? limit 5";
+    db.query(sql3, 0, (err, result3) => {
       if (err) {
         //  throw err
         return res.status(400).json({ error: "Error occured" });
