@@ -53,13 +53,19 @@
         </div>
       </div>
     </div>
+
+    <!-- displaying the list of student whose mentor is the current teacher  -->
+    <StudentUnderGuidance />
   </div>
 </template>
 
 <script>
+import StudentUnderGuidance from "./StudentUnderGuidance.vue";
 export default {
   name: "TeacherDashboard",
-
+  components: {
+    StudentUnderGuidance
+  },
   data() {
     return {
       teacher: []

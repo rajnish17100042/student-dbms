@@ -861,6 +861,27 @@ router.get("/teacher/dashboard", authenticate, async (req, res) => {
   return res.status(200).json({ user: req.user });
 });
 
+// route to get all the student under the guidance of a particular teacher
+router.get("/teacher/studentUnderGuidance", authenticate, (req, res) => {
+  const personalMentor = req.user[0].name;
+  // console.log(personalMentor);
+  // get student list from the table
+  const sql = "select * from student_registration where personal_mentor=?";
+  db.query(sql, personalMentor, (err, result) => {
+    // console.log(result);
+    if (err) {
+      // throw err;
+      return res.status(400).json("Error occured! Please try again");
+    }
+    if (!result.length) {
+      return res.status(400).json("Error occured! Please try again");
+    }
+    if (result.length) {
+      return res.status(200).json({ result });
+    }
+  });
+});
+
 //route to get all the registered students,teachers and admins
 router.get("/admin/registrationDetails", authenticate, async (req, res) => {
   var results = []; //global variable
