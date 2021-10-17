@@ -14,6 +14,7 @@ import DeleteAdmin from "./components/admin/DeleteAdmin.vue";
 import Home from "./components/Home.vue";
 import Login from "./components/Login.vue";
 import AdminDashboard from "./components/admin/AdminDashboard.vue";
+import StudentDashboard from "./components/student/StudentDashboard.vue";
 import RegistrationDetails from "./components/admin/RegistrationDetails.vue";
 
 import { createRouter, createWebHistory } from "vue-router";
@@ -110,7 +111,14 @@ const routes = [
   {
     name: "AdminDashboard",
     component: AdminDashboard,
-    path: "/adminDashboard",
+    path: "/admin/Dashboard",
+  },
+  // route  for Admin dashboard
+
+  {
+    name: "StudentDashboard",
+    component: StudentDashboard,
+    path: "/student/Dashboard",
   },
   // route to display all registration details of student,teacher and admin on admin dashboard
 

@@ -17,30 +17,24 @@
           Welcome <strong>{{ name }}</strong> !! Have a nice day.
           <button @click="logout">Logout</button>
           <button>
-            <router-link to="/registerStudent">Register Student</router-link>
+            <router-link to="/student/updateDetails"
+              >Update Details</router-link
+            >
           </button>
           <button>
-            <router-link to="/registerTeacher">Register Teacher</router-link>
-          </button>
-          <button>
-            <router-link to="/registerAdmin">Register Admin</router-link>
+            <router-link to="/student/updatePassword"
+              >Update Password</router-link
+            >
           </button>
         </div>
       </div>
     </div>
-
-    <!-- details regarding registration   -->
-    <RegistrationDetails />
   </div>
 </template>
 
 <script>
-import RegistrationDetails from "./RegistrationDetails.vue";
 export default {
-  name: "AdminDashboard",
-  components: {
-    RegistrationDetails
-  },
+  name: "StudentDashboard",
 
   data() {
     return {
@@ -82,7 +76,7 @@ export default {
   },
   async mounted() {
     try {
-      const response = await fetch("http://localhost:5000/admin/dashboard", {
+      const response = await fetch("http://localhost:5000/student/dashboard", {
         method: "GET",
         headers: {
           Accept: "application/json",

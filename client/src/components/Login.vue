@@ -81,7 +81,8 @@ export default {
       } else if (data === "teacher") {
         window.alert("redirecting to the teacher dashboard");
       } else if (data === "student") {
-        window.alert("redirecting to the student dashboard");
+        // window.alert("redirecting to the student dashboard");
+        this.$router.push({ name: "StudentDashboard" });
       } else if (data === "admin") {
         // window.alert("redirecting to the admin dashboard");
         this.$router.push({ name: "AdminDashboard" });
