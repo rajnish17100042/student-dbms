@@ -126,7 +126,7 @@ export default {
         else if (this.role === "admin") {
           this.$router.push({ name: "AdminDashboard" });
         } else if (this.role === "student") {
-          window.alert("redirecting to Student Dashboard");
+          this.$router.push({ name: "StudentDashboard" });
         } else if (this.role === "teacher") {
           window.alert("redirecting to Teacher Dashboard");
         }
