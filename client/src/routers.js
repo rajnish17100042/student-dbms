@@ -15,8 +15,8 @@ import Home from "./components/Home.vue";
 import Login from "./components/Login.vue";
 import AdminDashboard from "./components/admin/AdminDashboard.vue";
 import StudentDashboard from "./components/student/StudentDashboard.vue";
+import TeacherDashboard from "./components/teacher/TeacherDashboard.vue";
 import RegistrationDetails from "./components/admin/RegistrationDetails.vue";
-
 import { createRouter, createWebHistory } from "vue-router";
 
 // will define route and for every route we will create an object
@@ -114,11 +114,18 @@ const routes = [
     path: "/admin/Dashboard",
   },
   // route  for Admin dashboard
-
   {
     name: "StudentDashboard",
     component: StudentDashboard,
     path: "/student/Dashboard",
+  },
+
+  // route  for teacher dashboard
+
+  {
+    name: "TeacherDashboard",
+    component: TeacherDashboard,
+    path: "/teacher/Dashboard",
   },
   // route to display all registration details of student,teacher and admin on admin dashboard
 

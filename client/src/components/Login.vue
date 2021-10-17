@@ -79,7 +79,8 @@ export default {
         // in case of any error redirect user to the login page
         this.$router.push({ name: "Login" });
       } else if (data === "teacher") {
-        window.alert("redirecting to the teacher dashboard");
+        // window.alert("redirecting to the teacher dashboard");
+        this.$router.push({ name: "TeacherDashboard" });
       } else if (data === "student") {
         this.$router.push({ name: "StudentDashboard" });
       } else if (data === "admin") {
@@ -128,7 +129,7 @@ export default {
         } else if (this.role === "student") {
           this.$router.push({ name: "StudentDashboard" });
         } else if (this.role === "teacher") {
-          window.alert("redirecting to Teacher Dashboard");
+          this.$router.push({ name: "TeacherDashboard" });
         }
 
         // clear all the input fields
