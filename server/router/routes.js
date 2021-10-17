@@ -849,6 +849,7 @@ router.get("/admin/dashboard", authenticate, async (req, res) => {
 router.get("/student/dashboard", authenticate, async (req, res) => {
   // console.log("This is dashboard");
   // send the user information to the frontend to show the data on dashboard
+  // console.log(req.user);
   return res.status(200).json({ user: req.user });
 });
 //route to get all the registered students,teachers and admins

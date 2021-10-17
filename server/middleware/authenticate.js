@@ -37,7 +37,7 @@ const authenticate = async (req, res, next) => {
       tableName = "admin_registration";
     }
 
-    const sql = `select name,email,phone from ${tableName} where email=? and password=? `;
+    const sql = `select * from ${tableName} where email=? and password=? `;
     db.query(sql, [email, password], (err, result) => {
       if (err) {
         throw err;

@@ -125,7 +125,7 @@ const routes = [
   {
     name: "RegistrationDetails",
     component: RegistrationDetails,
-    path: "/adminDashboard",
+    path: "/admin/Dashboard",
   },
 ];
 

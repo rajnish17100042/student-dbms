@@ -4,28 +4,46 @@
       <div class="sidebar">
         <ul>
           <li>
-            <a><i class="fas fa-envelope"></i>{{ email }}</a>
+            <a><i class="fas fa-envelope"></i>{{ student.email }}</a>
           </li>
           <li>
-            <a><i class="fas fa-phone"></i>{{ phone }}</a>
+            <a><i class="fas fa-phone"></i>{{ student.phone }}</a>
           </li>
         </ul>
         <!-- <button @click="logout">Logout</button>      not working here -->
       </div>
       <div class="main_content">
         <div class="header">
-          Welcome <strong>{{ name }}</strong> !! Have a nice day.
+          Welcome <strong>{{ student.name }}</strong> !! Have a nice day.
           <button @click="logout">Logout</button>
-          <button>
-            <router-link to="/student/updateDetails"
-              >Update Details</router-link
-            >
-          </button>
-          <button>
-            <router-link to="/student/updatePassword"
-              >Update Password</router-link
-            >
-          </button>
+        </div>
+
+        <!-- displaying student data  -->
+        <div class="header">
+          <h1>Registration Details</h1>
+        </div>
+
+        <div class="info">
+          <table id="customers">
+            <tr>
+              <th>Batch</th>
+              <th>Personal Mentor</th>
+              <th>Admission Date</th>
+              <th>Address</th>
+              <th>City</th>
+              <th>State</th>
+              <th>Pincode</th>
+            </tr>
+            <tr>
+              <td>{{ student.batch }}</td>
+              <td>{{ student.personal_mentor }}</td>
+              <td>{{ student.admission_date }}</td>
+              <td>{{ student.address }}</td>
+              <td>{{ student.city }}</td>
+              <td>{{ student.state }}</td>
+              <td>{{ student.pincode }}</td>
+            </tr>
+          </table>
         </div>
       </div>
     </div>
@@ -38,9 +56,7 @@ export default {
 
   data() {
     return {
-      name: "",
-      email: "",
-      phone: ""
+      student: []
     };
   },
   methods: {
@@ -96,10 +112,7 @@ export default {
         this.$router.push({ name: "Login" });
       } else {
         // display the data on the dashboard
-        const { name, email, phone } = data.user[0];
-        this.name = name;
-        this.email = email;
-        this.phone = phone;
+        this.student = data.user[0];
       }
     } catch (err) {
       // console.log(err);
