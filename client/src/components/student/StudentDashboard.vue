@@ -16,6 +16,12 @@
         <div class="header">
           Welcome <strong>{{ student.name }}</strong> !! Have a nice day.
           <button @click="logout">Logout</button>
+
+          <button>
+            <router-link :to="'/updateStudentPassword/' + student.id"
+              ><i class="fas fa-key">Update Password</i></router-link
+            >
+          </button>
         </div>
 
         <!-- displaying student data  -->

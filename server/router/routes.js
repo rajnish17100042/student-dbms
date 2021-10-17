@@ -919,7 +919,11 @@ router.get(
     // console.log(req.user);
     // console.log(req.role);
 
-    if (req.role !== "admin") {
+    if (
+      req.role !== "admin" &&
+      req.role !== "student" &&
+      req.role !== "teacher"
+    ) {
       return res.status(400).json({ error: "Error! Try again" });
     } else {
       return res.status(200).json({ success: "Rendering registration page" });
