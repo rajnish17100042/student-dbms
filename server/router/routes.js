@@ -9,7 +9,7 @@ const saltRounds = 12;
 // requiring database connection
 const db = require("../db/conn");
 
-//include authenticate middleware here
+//include authenticate middleware here...
 const authenticate = require("../middleware/authenticate");
 
 // create an endpoint or route for the home page
