@@ -12,6 +12,10 @@ const db = require("../db/conn");
 //include authenticate middleware here...
 const authenticate = require("../middleware/authenticate");
 
+//include mailer function to send password in the mail after successful registration of User
+const passwordMailer = require("../mailer/password_mailer.js");
+// const message = passwordMailer("rajnish17100042@gmail.com");/
+
 // create an endpoint or route for the home page
 router.get("/", (req, res) => {
   res.send("<h1>Hello from the Home Page.....This is the Express router</h1>");
@@ -110,6 +114,8 @@ router.post("/registerStudent", authenticate, (req, res) => {
                   .json("Some error occured please registered again");
               }
               //   console.log(result);
+              // send mail to student
+              passwordMailer(email, name);
               return res.status(200).json("Student registedred Successfully");
             });
           });
@@ -361,6 +367,8 @@ router.post("/registerTeacher", authenticate, (req, res) => {
                   .json("Some error occured please registered again");
               }
               //   console.log(result);
+              // send eamil
+              passwordMailer(email, name);
               return res.status(200).json("Teacher registedred Successfully");
             });
           });
@@ -606,6 +614,8 @@ router.post("/registerAdmin", authenticate, (req, res) => {
                   .json("Some error occured please registered again");
               }
               //   console.log(result);
+              // send email
+              passwordMailer(email, name);
               return res.status(200).json("Admin registedred Successfully");
             });
           });
