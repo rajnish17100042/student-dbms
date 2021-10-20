@@ -1,7 +1,7 @@
 var nodemailer = require("nodemailer");
 const user = process.env.GMAIL_USER_ID;
 const password = process.env.GMAIL_PASSWORD;
-console.log(user, password);
+// console.log(user, password);
 const passwordMailer = async (email, name) => {
   var transporter = nodemailer.createTransport({
     service: "gmail",
