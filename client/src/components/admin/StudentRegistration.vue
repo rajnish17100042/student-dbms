@@ -202,9 +202,9 @@ export default {
           },
           body: JSON.stringify(student)
         });
-        // console.log(response);
+        console.log(response);
         const data = await response.json();
-        // console.log(data);
+        console.log(data);
         if (response.status !== 200 || !data) {
           window.alert("something went wrong or User is already registered");
         } else {

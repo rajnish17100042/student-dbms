@@ -25,6 +25,9 @@
           <button>
             <router-link to="/registerAdmin">Register Admin</router-link>
           </button>
+          <button>
+            <router-link to="/notice-board">Issue a Notice</router-link>
+          </button>
         </div>
       </div>
     </div>

@@ -14,7 +14,8 @@ const authenticate = require("../middleware/authenticate");
 
 //include mailer function to send password in the mail after successful registration of User
 const passwordMailer = require("../mailer/password_mailer.js");
-// const message = passwordMailer("rajnish17100042@gmail.com");/
+const noticeMailer = require("../mailer/notice_mailer.js");
+// const message = passwordMailer("rajnish17100042@gmail.com");
 
 // create an endpoint or route for the home page
 router.get("/", (req, res) => {
@@ -982,6 +983,94 @@ router.get("/loginAuthentication", authenticate, async (req, res) => {
     return res.status(200).json(req.role);
   } else {
     return res.status(400).json({ alert: "Rendering login page" }); //will never encountered the else condition ... user is not present then it authenticate middleawre itself takes care of it.   ...verified
+  }
+});
+
+//route to store notice in database and sending notice to  email
+router.post("/issue-notice", authenticate, (req, res) => {
+  let tableName = "";
+  let emails = []; //global variable to store all the emails
+  // allow only teacher and admin to issue a notice  ...double checking  for security purpose
+  if (req.role !== "admin" && req.role !== "teacher") {
+    return res
+      .status(400)
+      .json({ error: "Some Error Occured Please Try again" });
+  } else if (req.role === "admin" || req.role === "teacher") {
+    const { name, email, group, notice_date, subject, notice } = req.body;
+    // server side validation     ...what if request is made from postman
+    if (!name || !email || !group || !notice_date || !subject || !notice) {
+      return res.status(400).json({ error: "Error Occured Please try again" });
+    }
+    // if everything is fine the store the notice in the database and send email to all members of group
+    const sql = "insert into notice_board set ?";
+
+    db.query(sql, req.body, (err1, result1) => {
+      // console.log(result.length);    returns undefined ... use only result  not result.length
+      if (err1) {
+        // throw err;
+        return res
+          .status(400)
+          .json({ error: "Error Occured Please try again" });
+      } else if (!result1) {
+        return res
+          .status(400)
+          .json({ error: "Error Occured Please try again" });
+      } else if (result1) {
+        //it means notice is successfully stored in the database ... now mail the notice to every group members  ... extract email id based on group
+        // console.log(group);
+
+        if (group === "teacher") {
+          tableName = "teacher_registration";
+        } else if (group === "student") {
+          tableName = "student_registration";
+        }
+        // now retrieve the email from the correct table
+        const sql = `select email from ${tableName}`;
+
+        db.query(sql, (err2, result2) => {
+          if (err2) {
+            // throw err;
+            return res
+              .status(400)
+              .json({ error: "Error Occured Please try again" });
+          } else if (!result2) {
+            return res
+              .status(400)
+              .json({ error: "Error Occured Please try again" });
+          } else if (result2) {
+            // console.log(result2);
+            result2.forEach((item) => {
+              emails.push(item.email);
+            });
+            // console.log(emails);
+            // send the mail
+            // console.log(subject, notice);
+            noticeMailer(emails, subject, notice);
+          }
+        });
+
+        return res.status(200).json({ success: "Notice Issued Successfully" });
+      }
+    });
+  }
+});
+
+//route for authentication before rendering the protected routers allow only teacher and admin to reach this route
+router.get("/authentication", authenticate, (req, res) => {
+  if (!req.user) {
+    return res.status(400).json("Some Error Occured! Try again");
+  } else if (req.role !== "teacher" && req.role !== "admin") {
+    return res.status(400).json("Some Error Occured! Try again");
+  } else if (req.user) {
+    // console.log(req.user);
+    const { name, email } = req.user[0];
+    // console.log(name, email);
+    return res.status(200).json({
+      user: {
+        email,
+        name,
+      },
+    });
   }
 });
 

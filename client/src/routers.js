@@ -18,6 +18,7 @@ import StudentDashboard from "./components/student/StudentDashboard.vue";
 import TeacherDashboard from "./components/teacher/TeacherDashboard.vue";
 import RegistrationDetails from "./components/admin/RegistrationDetails.vue";
 import StudentUnderGuidance from "./components/teacher/StudentUnderGuidance.vue";
+import NoticeBoard from "./components/NoticeBoard.vue";
 import { createRouter, createWebHistory } from "vue-router";
 
 // will define route and for every route we will create an object
@@ -140,6 +141,13 @@ const routes = [
     name: "StudentUnderGuidance",
     component: StudentUnderGuidance,
     path: "/teacher/Dashboard",
+  },
+
+  // route to issue a notice
+  {
+    name: "NoticeBoard",
+    component: NoticeBoard,
+    path: "/notice-board",
   },
 ];
 
