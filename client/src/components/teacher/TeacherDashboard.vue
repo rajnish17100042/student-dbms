@@ -22,6 +22,9 @@
               ><i class="fas fa-key">Update Password</i></router-link
             >
           </button>
+          <button>
+            <router-link to="/notice-board">Issue a Notice</router-link>
+          </button>
         </div>
 
         <!-- displaying teacher data  -->
