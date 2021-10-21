@@ -988,7 +988,7 @@ router.get("/loginAuthentication", authenticate, async (req, res) => {
 
 //route to store notice in database and sending notice to  email
 router.post("/issue-notice", authenticate, (req, res) => {
-  let tableName = "";
+  let tableName = ""; //global variable
   let emails = []; //global variable to store all the emails
   // allow only teacher and admin to issue a notice  ...double checking  for security purpose
   if (req.role !== "admin" && req.role !== "teacher") {
@@ -1007,7 +1007,7 @@ router.post("/issue-notice", authenticate, (req, res) => {
     db.query(sql, req.body, (err1, result1) => {
       // console.log(result.length);    returns undefined ... use only result  not result.length
       if (err1) {
-        // throw err;
+        // throw err1;
         return res
           .status(400)
           .json({ error: "Error Occured Please try again" });
@@ -1024,30 +1024,73 @@ router.post("/issue-notice", authenticate, (req, res) => {
         } else if (group === "student") {
           tableName = "student_registration";
         }
-        // now retrieve the email from the correct table
-        const sql = `select email from ${tableName}`;
+        if (group === "teacher" || group === "student") {
+          // now retrieve the email from the correct table
+          const sql = `select email from ${tableName}`;
 
-        db.query(sql, (err2, result2) => {
-          if (err2) {
-            // throw err;
-            return res
-              .status(400)
-              .json({ error: "Error Occured Please try again" });
-          } else if (!result2) {
-            return res
-              .status(400)
-              .json({ error: "Error Occured Please try again" });
-          } else if (result2) {
-            // console.log(result2);
-            result2.forEach((item) => {
-              emails.push(item.email);
-            });
+          db.query(sql, (err2, result2) => {
+            if (err2) {
+              // throw err2;
+              return res
+                .status(400)
+                .json({ error: "Error Occured Please try again" });
+            } else if (!result2) {
+              return res
+                .status(400)
+                .json({ error: "Error Occured Please try again" });
+            } else if (result2) {
+              // console.log(result2);
+              result2.forEach((item) => {
+                emails.push(item.email);
+              });
+              // console.log(emails);
+              // send the mail
+              // console.log(subject, notice);
+              noticeMailer(emails, subject, notice);
+            }
+          });
+        }
+
+        //  handle commnon group case seperately
+        else if (group === "common") {
+          const sql1 = "select email from student_registration ";
+          db.query(sql1, (err3, result3) => {
+            if (err3) {
+              throw err3;
+              // return res.status(400);
+              // // .json({ error: "Error Occured Please try again" });
+            } else if (!result3) {
+              return res
+                .status(400)
+                .json({ error: "Error Occured Please try again" });
+            } else if (result3) {
+              // console.log(result3);
+              result3.forEach((item) => {
+                emails.push(item.email);
+              });
+            }
+          });
+          const sql2 = "select email from teacher_registration ";
+          db.query(sql2, (err4, result4) => {
+            if (err4) {
+              throw err4;
+              // return res.status(400);
+              // // .json({ error: "Error Occured Please try again" });
+            } else if (!result4) {
+              return res
+                .status(400)
+                .json({ error: "Error Occured Please try again" });
+            } else if (result4) {
+              // console.log(result4);
+              result4.forEach((item) => {
+                emails.push(item.email);
+              });
+            }
             // console.log(emails);
-            // send the mail
-            // console.log(subject, notice);
             noticeMailer(emails, subject, notice);
-          }
-        });
+          });
+          // console.log(emails);    showing empty ... unusual behaviour...why??
+        }
 
         return res.status(200).json({ success: "Notice Issued Successfully" });
       }
