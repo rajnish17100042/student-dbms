@@ -16,6 +16,7 @@ const authenticate = require("../middleware/authenticate");
 //include mailer function to send password in the mail after successful registration of User
 const passwordMailer = require("../mailer/password_mailer.js");
 const noticeMailer = require("../mailer/notice_mailer.js");
+const resetPasswordLinkMailer = require("../mailer/reset_password_link_mailer.js");
 // const message = passwordMailer("rajnish17100042@gmail.com");
 
 //include image uploading function
@@ -853,6 +854,179 @@ router.post("/login", (req, res) => {
   // console.log(result);
 });
 
+// route for forget password ...will check for user existence in database and send
+router.post("/forget-password", (req, res) => {
+  // get the request body
+  // console.log(req.body);
+  const { email, role } = req.body;
+  let tablename = ""; //global
+
+  // server side validation   ....what if request is sent from postman
+  if (!email || !role) {
+    return res.status(400).json({ error: "Please Fill the data properly" });
+  }
+  //check if user exists in the database
+  // first select the table based on role of the user
+  if (role === "admin") {
+    tablename = "admin_registration";
+  } else if (role === "teacher") {
+    tablename = "teacher_registration";
+  } else if (role === "student") {
+    tablename = "student_registration";
+  }
+  const sql = `select id,email,password from ${tablename} where email=?`;
+  db.query(sql, email, (err, result) => {
+    if (err) {
+      // throw err;
+      return res.status(400).json({ error: "Some Error Occured!" });
+    } else if (!result.length) {
+      return res.status(400).json({ error: "Some Error Occured!" });
+    } else if (result.length) {
+      // console.log(result);
+      // now get the passowrd from the result
+      const { password } = result[0];
+      // console.log(email, password);
+      //user exists and now create one time link valid for 15 minutes  for that generate a new secret key using original secret key and user password stored in the database
+      const secret = secretKey + password; //this secret is unique for all users
+      //now define the payload for the jwt
+      const payload = {
+        email,
+        role,
+      };
+
+      //now generate jwt
+      const token = jwt.sign(payload, secret, { expiresIn: "15m" });
+      // console.log(token);
+      //now generate the reset password link
+      const resetPasswordLink = `http://localhost:8080/reset-password/${role}/${email}/${token}`;
+      // console.log(resetPasswordLink);
+      //send the reset password link to email
+      resetPasswordLinkMailer(email, resetPasswordLink);
+      return res
+        .status(200)
+        .json({ message: "Check your mail for password reset link" });
+    }
+  });
+});
+
+// route to authenticate the user for the reset password
+router.get("/reset-password/:role/:email/:token", (req, res) => {
+  const params = req.params;
+  const { role, email, token } = params;
+  let tablename = ""; //global
+  // console.log(params);
+  // first check if user exists in the database
+  // first select the table based on role of the user
+  if (role === "admin") {
+    tablename = "admin_registration";
+  } else if (role === "teacher") {
+    tablename = "teacher_registration";
+  } else if (role === "student") {
+    tablename = "student_registration";
+  }
+  const sql = `select id,email,password from ${tablename} where email=?`;
+  db.query(sql, email, (err, result) => {
+    if (err) {
+      // throw err;
+      return res.status(400).json({ error: "Some Error Occured!" });
+    } else if (!result.length) {
+      return res.status(400).json({ error: "Some Error Occured!" });
+    } else if (result.length) {
+      // console.log(result);
+      // now get the passowrd from the result
+      const { password } = result[0];
+      // console.log(email, password);
+      //user exists and now verify the token
+      const secret = secretKey + password; //this secret is unique for all users
+
+      // use try catch block to verify token
+      try {
+        const payload = jwt.verify(token, secret); //returns the payload if token verified
+        return res
+          .status(200)
+          .json({ message: "Reset Password Page is rendering" });
+      } catch (err) {
+        // throw err;
+        return res.status(400).json({ error: "Some Error Occured!" });
+      }
+    }
+  });
+});
+
+// route to reset the password
+router.post("/reset-password/:role/:email/:token", (req, res) => {
+  const params = req.params;
+  const { newPassword, cnewPassword } = req.body;
+  // console.log(newPassword);
+  // server side validation
+  if (!newPassword || !cnewPassword || newPassword !== cnewPassword) {
+    return res.status(400).json({ error: "Please fill the data properly" });
+  }
+  const { role, email, token } = params;
+  let tablename = ""; //global
+  // console.log(params);
+  // first check if user exists in the database
+  // first select the table based on role of the user
+  if (role === "admin") {
+    tablename = "admin_registration";
+  } else if (role === "teacher") {
+    tablename = "teacher_registration";
+  } else if (role === "student") {
+    tablename = "student_registration";
+  }
+  const sql = `select email,password from ${tablename} where email=?`;
+  db.query(sql, email, (err, result) => {
+    if (err) {
+      // throw err;
+      return res.status(400).json({ error: "Some Error Occured!" });
+    } else if (!result.length) {
+      return res.status(400).json({ error: "Some Error Occured!" });
+    } else if (result.length) {
+      // console.log(result);
+      // now get the passowrd from the result
+      const { password } = result[0];
+      // console.log(email, password);
+      //user exists and now verify the token
+      const secret = secretKey + password; //this secret is unique for all users
+
+      // use try catch block to verify token
+      try {
+        const payload = jwt.verify(token, secret); //returns the payload if token verified
+        // console.log(payload);
+        if (!payload) {
+          return res.status(400).json({ error: "Some Error Occured!" });
+        } else if (payload) {
+          //update password
+          //first hash the password
+          bcrypt.hash(newPassword, saltRounds, (err, hash) => {
+            if (err) {
+              // throw err;
+              return res.status(400).json({ error: "Some Error Occured!" });
+            } else {
+              const sql2 = `update ${tablename} set password=? where email=?`;
+              db.query(sql2, [hash, email], (err, result) => {
+                if (err) {
+                  // throw err;
+                  return res.status(400).json({ error: "Some Error Occured!" });
+                } else if (!result) {
+                  return res.status(400).json({ error: "Some Error Occured!" });
+                } else if (result) {
+                  // console.log(result);
+                  return res
+                    .status(200)
+                    .json({ message: "Password is successfully resetted" });
+                }
+              });
+            }
+          });
+        }
+      } catch (err) {
+        // throw err;
+        return res.status(400).json({ error: "Some Error Occured!" });
+      }
+    }
+  });
+});
 //route for admin dashboard
 router.get("/admin/dashboard", authenticate, async (req, res) => {
   // console.log("This is dashboard");

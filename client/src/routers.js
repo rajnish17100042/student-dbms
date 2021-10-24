@@ -13,6 +13,8 @@ import DeleteTeacher from "./components/admin/DeleteTeacher.vue";
 import DeleteAdmin from "./components/admin/DeleteAdmin.vue";
 import Home from "./components/Home.vue";
 import Login from "./components/Login.vue";
+import ForgetPassword from "./components/ForgetPassword.vue";
+import ResetPassword from "./components/ResetPassword.vue";
 import AdminDashboard from "./components/admin/AdminDashboard.vue";
 import StudentDashboard from "./components/student/StudentDashboard.vue";
 import TeacherDashboard from "./components/teacher/TeacherDashboard.vue";
@@ -35,6 +37,18 @@ const routes = [
     name: "Login",
     component: Login,
     path: "/login",
+  },
+  //route for forget password page
+  {
+    name: "ForgetPassword",
+    component: ForgetPassword,
+    path: "/forget-password",
+  },
+  //route  to reset password
+  {
+    name: "ResetPassword",
+    component: ResetPassword,
+    path: "/reset-password/:role/:email/:token",
   },
   // route admin registration
   {

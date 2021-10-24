@@ -41,6 +41,11 @@
       <button type="submit" class="loginbtn" @click.prevent="login">
         Login
       </button>
+      <p>
+        Forgot Your Password?? ...<router-link to="/forget-password"
+          >click here</router-link
+        >
+      </p>
     </div>
   </form>
 </template>
