@@ -4,11 +4,7 @@
       <div class="sidebar">
         <ul>
           <li>
-            <!-- <img
-              class="avatar"
-              :src="require(`../../assets/uploads/${student.image}`)"
-              :alt="student.name"
-            /> -->
+            <img class="avatar" :src="`${student.image}`" :alt="student.name" />
           </li>
           <li>
             <a><i class="fas fa-envelope"></i>{{ student.email }}</a>

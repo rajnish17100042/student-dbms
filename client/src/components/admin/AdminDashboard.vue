@@ -4,6 +4,13 @@
       <div class="sidebar">
         <ul>
           <li>
+            <img
+              class="avatar"
+              :src="`../../assets/uploads/${image}`"
+              :alt="name"
+            />
+          </li>
+          <li>
             <a><i class="fas fa-envelope"></i>{{ email }}</a>
           </li>
           <li>
@@ -27,6 +34,11 @@
           </button>
           <button>
             <router-link to="/notice-board">Issue a Notice</router-link>
+          </button>
+          <button>
+            <router-link to="/upload-image"
+              ><i class="fas fa-image">Upload Image</i></router-link
+            >
           </button>
         </div>
       </div>

@@ -4,6 +4,13 @@
       <div class="sidebar">
         <ul>
           <li>
+            <img
+              class="avatar"
+              :src="`../../assets/uploads/${teacher.image}`"
+              :alt="teacher.name"
+            />
+          </li>
+          <li>
             <a><i class="fas fa-envelope"></i>{{ teacher.email }}</a>
           </li>
           <li>
@@ -21,6 +28,11 @@
             <router-link :to="'/updateTeacherPassword/' + teacher.id"
               ><i class="fas fa-key">Update Password</i></router-link
             >
+            <button>
+              <router-link to="/upload-image"
+                ><i class="fas fa-image">Upload Image</i></router-link
+              >
+            </button>
           </button>
           <button>
             <router-link to="/notice-board">Issue a Notice</router-link>
