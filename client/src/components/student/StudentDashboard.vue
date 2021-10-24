@@ -4,6 +4,13 @@
       <div class="sidebar">
         <ul>
           <li>
+            <!-- <img
+              class="avatar"
+              :src="require(`../../assets/uploads/${student.image}`)"
+              :alt="student.name"
+            /> -->
+          </li>
+          <li>
             <a><i class="fas fa-envelope"></i>{{ student.email }}</a>
           </li>
           <li>
@@ -20,6 +27,12 @@
           <button>
             <router-link :to="'/updateStudentPassword/' + student.id"
               ><i class="fas fa-key">Update Password</i></router-link
+            >
+          </button>
+
+          <button>
+            <router-link to="/upload-image"
+              ><i class="fas fa-image">Upload Image</i></router-link
             >
           </button>
         </div>

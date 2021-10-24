@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcrypt");
+
 const jwt = require("jsonwebtoken");
 const secretKey = process.env.SECRET_KEY;
 // saltRound for password hashing
@@ -16,6 +17,9 @@ const authenticate = require("../middleware/authenticate");
 const passwordMailer = require("../mailer/password_mailer.js");
 const noticeMailer = require("../mailer/notice_mailer.js");
 // const message = passwordMailer("rajnish17100042@gmail.com");
+
+//include image uploading function
+const uploadImage = require("../fileUploading/imageUploading.js");
 
 // create an endpoint or route for the home page
 router.get("/", (req, res) => {
@@ -1117,6 +1121,71 @@ router.get("/authentication", authenticate, (req, res) => {
   }
 });
 
+//route for authentication before rendering forget password page
+router.get("/common-authentication", authenticate, (req, res) => {
+  if (!req.user) {
+    return res.status(400).json("Some Error Occured! Try again");
+  } else if (
+    req.role !== "teacher" &&
+    req.role !== "admin" &&
+    req.role !== "student"
+  ) {
+    return res.status(400).json("Some Error Occured! Try again");
+  } else if (req.user) {
+    // console.log(req.user);
+    const { name, email } = req.user[0];
+    // console.log(name, email);
+    return res.status(200).json({
+      user: {
+        email,
+        name,
+      },
+    });
+  }
+});
+
+// route to upload image
+router.post("/upload-image", authenticate, (req, res) => {
+  uploadImage(req, res, (err) => {
+    if (err) {
+      // console.log(err);
+      return res.status(400).json({ error: "Larger file Size" });
+    } else if (req.file == undefined) {
+      return res.status(400).json({ error: "No file selected" });
+    } else {
+      console.log(req.file);
+      // get the filename and store it in the data base corresponding to the correct user under correct role
+      // console.log(req.role, req.user[0].email);
+      const filename = req.file.filename;
+      const email = req.user[0].email;
+      const role = req.role;
+      let tablename = "";
+      // select table based on the role
+      if (role === "admin") {
+        tablename = "admin_registration";
+      } else if (role === "teacher") {
+        tablename = "teacher_registration";
+      } else if (role === "student") {
+        tablename = "student_registration";
+      }
+      console.log(filename);
+      const sql = `update ${tablename} set image=? where email=?`;
+      db.query(sql, [filename, email], (err, result) => {
+        if (err) {
+          throw err;
+          // return res.status(400).json({ error: "Some Error Occured" });
+        } else if (!result) {
+          return res.status(400).json({ error: "No file selected" });
+        } else if (result) {
+          console.log(result);
+          return res
+            .status(200)
+            .json({ message: "Image Uploaded successfully" });
+        }
+      });
+    }
+  });
+});
 // route for logout
 router.get("/logout", authenticate, (req, res) => {
   // console.log("reaching to logout route");

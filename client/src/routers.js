@@ -19,6 +19,7 @@ import TeacherDashboard from "./components/teacher/TeacherDashboard.vue";
 import RegistrationDetails from "./components/admin/RegistrationDetails.vue";
 import StudentUnderGuidance from "./components/teacher/StudentUnderGuidance.vue";
 import NoticeBoard from "./components/NoticeBoard.vue";
+import UploadProfilePic from "./components/UploadProfilePic.vue";
 import { createRouter, createWebHistory } from "vue-router";
 
 // will define route and for every route we will create an object
@@ -148,6 +149,12 @@ const routes = [
     name: "NoticeBoard",
     component: NoticeBoard,
     path: "/notice-board",
+  },
+  // route to upload profile picture
+  {
+    name: "UploadProfilePic",
+    component: UploadProfilePic,
+    path: "/upload-image",
   },
 ];
 
