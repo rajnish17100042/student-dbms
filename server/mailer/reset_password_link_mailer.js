@@ -14,8 +14,10 @@ const resetPasswordLinkMailer = async (email, resetPasswordLink) => {
   var mailOptions = {
     from: "studentdbms2021@gmail.com",
     to: email,
-    subject: "Reset Your Password",
-    html: `Please Click on the this ${resetPasswordLink} to reset your password`,
+    subject: "One Time Reset Password Link",
+    html: `<p>Please click <a href="${resetPasswordLink}">here</a> to reset your password</p>
+            <p>Also this link is valid for only 15 minutes.</p>
+            `,
   };
 
   transporter.sendMail(mailOptions, (error, info) => {
