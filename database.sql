@@ -7,9 +7,9 @@ CREATE TABLE `student-dbms`.`teacher_registration` ( `id` INT(255) NOT NULL AUTO
 
 
 -- table creation for admin registration 
-CREATE TABLE `student-dbms`.`admin_registration` ( `id` INT(11) NOT NULL AUTO_INCREMENT , `name` VARCHAR(255) NOT NULL , `email` VARCHAR(255) NOT NULL , `phone` VARCHAR(11) NOT NULL , `address` TEXT NOT NULL , `city` VARCHAR(11) NOT NULL , `state` VARCHAR(11) NOT NULL , `pincode` VARCHAR(11) NOT NULL , `joining_date` VARCHAR(11) NOT NULL , `password` VARCHAR(255) NOT NULL , `registered_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , PRIMARY KEY (`id`), UNIQUE `email` (`email`)) ENGINE = InnoDB;
+CREATE TABLE `student-dbms`.`admin_registration` ( `id` INT(255) NOT NULL AUTO_INCREMENT , `name` VARCHAR(255) NOT NULL , `email` VARCHAR(255) NOT NULL , `phone` VARCHAR(255) NOT NULL , `address` TEXT NOT NULL , `city` VARCHAR(255) NOT NULL , `state` VARCHAR(255) NOT NULL , `pincode` VARCHAR(255) NOT NULL , `joining_date` VARCHAR(255) NOT NULL , `password` VARCHAR(255) NOT NULL , `registered_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , PRIMARY KEY (`id`), UNIQUE `email` (`email`)) ENGINE = InnoDB;
 
 
 -- table creation for notice 
 
-CREATE TABLE `student-dbms`.`notice_board` ( `id` INT(11) NOT NULL AUTO_INCREMENT , `name` VARCHAR(255) NOT NULL , `email` VARCHAR(255) NOT NULL , `group` VARCHAR(255) NOT NULL , `notice_date` VARCHAR(255) NOT NULL , `subject` VARCHAR(255) NOT NULL , `notice` TEXT NOT NULL , `issued_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , PRIMARY KEY (`id`)) ENGINE = InnoDB;
+CREATE TABLE `student-dbms`.`notice_board` ( `id` INT(255) NOT NULL AUTO_INCREMENT , `name` VARCHAR(255) NOT NULL , `email` VARCHAR(255) NOT NULL , `group` VARCHAR(255) NOT NULL , `notice_date` VARCHAR(255) NOT NULL , `subject` VARCHAR(255) NOT NULL , `notice` TEXT NOT NULL , `issued_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , PRIMARY KEY (`id`)) ENGINE = InnoDB;
