@@ -1,6 +1,5 @@
 const multer = require("multer");
 const path = require("path");
-const S3 = require("aws-sdk/clients/s3");
 
 //set storage engine for file upload in local
 const storage = multer.diskStorage({
