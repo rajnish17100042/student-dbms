@@ -1,6 +1,9 @@
 const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcrypt");
+const fs = require("fs");
+const util = require("util");
+const unlinkFile = util.promisify(fs.unlink);
 
 const jwt = require("jsonwebtoken");
 const secretKey = process.env.SECRET_KEY;
@@ -1330,14 +1333,15 @@ router.post("/upload-image", authenticate, async (req, res) => {
       return res.status(400).json({ error: "No file selected" });
     } else {
       // console.log(req.file);
+      const file = req.file;
       //upload the file on Amazon S3 and store the filename in database
-      uploadImageToS3(req.file)
+      uploadImageToS3(file)
         .then((uploadResult) => {
           // console.log(uploadResult);
           //store the filename in database
           // get the filename and store it in the data base corresponding to the correct user under correct role
           // console.log(req.role, req.user[0].email);
-          const filename = req.file.filename;
+          const filename = file.filename;
           const email = req.user[0].email;
           const role = req.role;
           let tablename = "";
@@ -1351,7 +1355,7 @@ router.post("/upload-image", authenticate, async (req, res) => {
           }
           // console.log(filename);
           const sql = `update ${tablename} set image=? where email=?`;
-          db.query(sql, [filename, email], (err, result) => {
+          db.query(sql, [filename, email], async (err, result) => {
             if (err) {
               // throw err;
               return res.status(400).json({ error: "Some Error Occured" });
@@ -1359,6 +1363,8 @@ router.post("/upload-image", authenticate, async (req, res) => {
               return res.status(400).json({ error: "No file selected" });
             } else if (result) {
               // console.log(result);
+              //now delete the file from upload folder
+              await unlinkFile(file.path);
               return res
                 .status(200)
                 .json({ message: "Image Uploaded successfully" });
