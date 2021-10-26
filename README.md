@@ -64,4 +64,6 @@ Tables:
 13. file uploading in vuejs: https://www.youtube.com/watch?v=VqnJwh6E9ak
 14. file uploading using multer(server side ): https://www.youtube.com/watch?v=9Qzmri1WaaE
 15. uploading file to Amazon S3: https://www.youtube.com/watch?v=NZElg91l_ms
-16. Advanced mailing system using Gmail API: https://www.youtube.com/watch?v=-rcRf7yswfM
+16. uploading file to Amazon S3: https://www.youtube.com/watch?v=yGYeYJpRWPM
+17. uploading file to Amazon S3:https://www.youtube.com/watch?v=VpOPX8K2Yjg
+18. Advanced mailing system using Gmail API: https://www.youtube.com/watch?v=-rcRf7yswfM
