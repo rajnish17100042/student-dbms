@@ -22,6 +22,8 @@ const resetPasswordLinkMailer = require("../mailer/reset_password_link_mailer.js
 //include image uploading function
 const uploadImage = require("../fileUploading/imageUploading.js");
 
+const uploadImageToS3 = require("../fileUploading/imageUploadAmazonS3.js");
+
 // create an endpoint or route for the home page
 router.get("/", (req, res) => {
   res.send("<h1>Hello from the Home Page.....This is the Express router</h1>");
@@ -1319,7 +1321,7 @@ router.get("/common-authentication", authenticate, (req, res) => {
 });
 
 // route to upload image
-router.post("/upload-image", authenticate, (req, res) => {
+router.post("/upload-image", authenticate, async (req, res) => {
   uploadImage(req, res, (err) => {
     if (err) {
       // console.log(err);
@@ -1327,36 +1329,46 @@ router.post("/upload-image", authenticate, (req, res) => {
     } else if (req.file == undefined) {
       return res.status(400).json({ error: "No file selected" });
     } else {
-      console.log(req.file);
-      // get the filename and store it in the data base corresponding to the correct user under correct role
-      // console.log(req.role, req.user[0].email);
-      const filename = req.file.filename;
-      const email = req.user[0].email;
-      const role = req.role;
-      let tablename = "";
-      // select table based on the role
-      if (role === "admin") {
-        tablename = "admin_registration";
-      } else if (role === "teacher") {
-        tablename = "teacher_registration";
-      } else if (role === "student") {
-        tablename = "student_registration";
-      }
-      console.log(filename);
-      const sql = `update ${tablename} set image=? where email=?`;
-      db.query(sql, [filename, email], (err, result) => {
-        if (err) {
-          throw err;
-          // return res.status(400).json({ error: "Some Error Occured" });
-        } else if (!result) {
-          return res.status(400).json({ error: "No file selected" });
-        } else if (result) {
-          console.log(result);
-          return res
-            .status(200)
-            .json({ message: "Image Uploaded successfully" });
-        }
-      });
+      // console.log(req.file);
+      //upload the file on Amazon S3 and store the filename in database
+      uploadImageToS3(req.file)
+        .then((uploadResult) => {
+          // console.log(uploadResult);
+          //store the filename in database
+          // get the filename and store it in the data base corresponding to the correct user under correct role
+          // console.log(req.role, req.user[0].email);
+          const filename = req.file.filename;
+          const email = req.user[0].email;
+          const role = req.role;
+          let tablename = "";
+          // select table based on the role
+          if (role === "admin") {
+            tablename = "admin_registration";
+          } else if (role === "teacher") {
+            tablename = "teacher_registration";
+          } else if (role === "student") {
+            tablename = "student_registration";
+          }
+          // console.log(filename);
+          const sql = `update ${tablename} set image=? where email=?`;
+          db.query(sql, [filename, email], (err, result) => {
+            if (err) {
+              // throw err;
+              return res.status(400).json({ error: "Some Error Occured" });
+            } else if (!result) {
+              return res.status(400).json({ error: "No file selected" });
+            } else if (result) {
+              // console.log(result);
+              return res
+                .status(200)
+                .json({ message: "Image Uploaded successfully" });
+            }
+          });
+        })
+        .catch((err) => {
+          // console.log(err);
+          return res.status(400).json({ error: "Some Error Occured" });
+        });
     }
   });
 });

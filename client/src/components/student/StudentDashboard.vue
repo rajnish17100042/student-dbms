@@ -4,7 +4,13 @@
       <div class="sidebar">
         <ul>
           <li>
-            <img class="avatar" :src="`${student.image}`" :alt="student.name" />
+            <img
+              class="avatar"
+              :src="
+                `https://student-dbms-images.s3.amazonaws.com/${student.image}`
+              "
+              :alt="student.name"
+            />
           </li>
           <li>
             <a><i class="fas fa-envelope"></i>{{ student.email }}</a>

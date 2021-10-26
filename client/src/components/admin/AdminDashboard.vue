@@ -6,7 +6,7 @@
           <li>
             <img
               class="avatar"
-              :src="`../../assets/uploads/${image}`"
+              :src="`https://student-dbms-images.s3.amazonaws.com/${image}`"
               :alt="name"
             />
           </li>
@@ -61,7 +61,8 @@ export default {
     return {
       name: "",
       email: "",
-      phone: ""
+      phone: "",
+      image: ""
     };
   },
   methods: {
@@ -117,10 +118,11 @@ export default {
         this.$router.push({ name: "Login" });
       } else {
         // display the data on the dashboard
-        const { name, email, phone } = data.user[0];
+        const { name, email, phone, image } = data.user[0];
         this.name = name;
         this.email = email;
         this.phone = phone;
+        this.image = image;
       }
     } catch (err) {
       // console.log(err);

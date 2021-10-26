@@ -6,7 +6,9 @@
           <li>
             <img
               class="avatar"
-              :src="`../../assets/uploads/${teacher.image}`"
+              :src="
+                `https://student-dbms-images.s3.amazonaws.com/${teacher.image}`
+              "
               :alt="teacher.name"
             />
           </li>

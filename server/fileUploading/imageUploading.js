@@ -1,8 +1,10 @@
 const multer = require("multer");
 const path = require("path");
-//set storage engine for file upload
+const S3 = require("aws-sdk/clients/s3");
+
+//set storage engine for file upload in local
 const storage = multer.diskStorage({
-  destination: "../client/src/assets/uploads/",
+  destination: "./uploads/",
   filename: (req, file, cb) => {
     cb(
       null,
@@ -11,7 +13,7 @@ const storage = multer.diskStorage({
   },
 });
 
-// initialise upload
+// initialise upload middleware
 const uploadImage = multer({
   storage: storage,
   limits: { fileSize: 1000000 }, //1 MB
