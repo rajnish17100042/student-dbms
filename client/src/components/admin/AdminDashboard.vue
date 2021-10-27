@@ -10,6 +10,7 @@
               :alt="name"
             />
           </li>
+
           <li>
             <a><i class="fas fa-envelope"></i>{{ email }}</a>
           </li>
@@ -34,6 +35,11 @@
           </button>
           <button>
             <router-link to="/notice-board">Issue a Notice</router-link>
+          </button>
+          <button>
+            <router-link to="/admin/job-application"
+              >Job Application</router-link
+            >
           </button>
           <button>
             <router-link to="/upload-image"

@@ -104,9 +104,9 @@ export default {
           // headers: { "Content-Type": "application/json" },
           body: fd
         });
-        console.log(response);
+        // console.log(response);
         const data = await response.json();
-        console.log(data);
+        // console.log(data);
         if (response.status !== 200 || !data) {
           window.alert("something went wrong");
         } else {

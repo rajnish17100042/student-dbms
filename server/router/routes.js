@@ -1401,13 +1401,13 @@ router.post("/career", (req, res) => {
         .then((uploadResult) => {
           const tablename = "career_section";
           const jobData = req.query;
-          console.log(jobData);
-          console.log(uploadResult);
+          // console.log(jobData);
+          // console.log(uploadResult);
           //store the filename and query string in database
           const filename = file.filename;
           jobData.resume = filename;
-          console.log(jobData);
-          console.log(filename);
+          // console.log(jobData);
+          // console.log(filename);
 
           const sql = `insert into ${tablename} set ?`;
           db.query(sql, jobData, async (err, result) => {
@@ -1421,7 +1421,7 @@ router.post("/career", (req, res) => {
               await unlinkFile(file.path);
               return res.status(400).json({ error: "Some error occured" });
             } else if (result) {
-              console.log(result);
+              // console.log(result);
               //now delete the file from upload folder
               await unlinkFile(file.path);
               //send mail
@@ -1440,6 +1440,26 @@ router.post("/career", (req, res) => {
         });
     }
   });
+});
+
+//route to get the job application data
+router.get("/admin/job-application", authenticate, (req, res) => {
+  // console.log(req.role);
+  if (req.role !== "admin") {
+    return res.status(400).json({ error: "Do not have proper permission" });
+  } else {
+    // get all job application
+    const sql = "select * from career_section";
+    db.query(sql, (err, result) => {
+      if (err) {
+        //  throw err
+        return res.status(400).json({ error: "Error occured" });
+      } else {
+        // console.log(result);
+        return res.status(200).json({ result });
+      }
+    });
+  }
 });
 // route for logout
 router.get("/logout", authenticate, (req, res) => {

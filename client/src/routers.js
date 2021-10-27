@@ -14,6 +14,7 @@ import DeleteAdmin from "./components/admin/DeleteAdmin.vue";
 import Home from "./components/Home.vue";
 import Login from "./components/Login.vue";
 import Career from "./components/Career.vue";
+import JobApplication from "./components/admin/JobApplication.vue";
 import ForgetPassword from "./components/ForgetPassword.vue";
 import ResetPassword from "./components/ResetPassword.vue";
 import AdminDashboard from "./components/admin/AdminDashboard.vue";
@@ -44,6 +45,12 @@ const routes = [
     name: "Career",
     component: Career,
     path: "/career",
+  },
+  //route to diaplay all the job application
+  {
+    name: "JobApplication",
+    component: JobApplication,
+    path: "/admin/job-application",
   },
   //route for forget password page
   {

@@ -15,7 +15,7 @@ const jobMailer = async (emails, name) => {
     from: "studentdbms2021@gmail.com",
     to: emails,
     subject: "Thanks For apply for the Job",
-    html: `Dear <strong>${name}</strong>,<br/><p>Thank you for applying for the Job.</p><p>We are reviewing your resume</p><p>We will get back to you very soon</p><br/>Rajnish Patel<br/>Admin`,
+    html: `Dear <strong>${name}</strong>/><p>Thank you for applying for the Job.</p><p>We are reviewing your resume</p><p>We will get back to you very soon</p><br/>Rajnish Patel<br/>Admin`,
   };
 
   transporter.sendMail(mailOptions, (error, info) => {
