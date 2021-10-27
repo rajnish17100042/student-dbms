@@ -13,6 +13,7 @@ import DeleteTeacher from "./components/admin/DeleteTeacher.vue";
 import DeleteAdmin from "./components/admin/DeleteAdmin.vue";
 import Home from "./components/Home.vue";
 import Login from "./components/Login.vue";
+import Career from "./components/Career.vue";
 import ForgetPassword from "./components/ForgetPassword.vue";
 import ResetPassword from "./components/ResetPassword.vue";
 import AdminDashboard from "./components/admin/AdminDashboard.vue";
@@ -37,6 +38,12 @@ const routes = [
     name: "Login",
     component: Login,
     path: "/login",
+  },
+  //route for career section
+  {
+    name: "Career",
+    component: Career,
+    path: "/career",
   },
   //route for forget password page
   {

@@ -13,3 +13,7 @@ CREATE TABLE `student-dbms`.`admin_registration` ( `id` INT(255) NOT NULL AUTO_I
 -- table creation for notice 
 
 CREATE TABLE `student-dbms`.`notice_board` ( `id` INT(255) NOT NULL AUTO_INCREMENT , `name` VARCHAR(255) NOT NULL , `email` VARCHAR(255) NOT NULL , `group` VARCHAR(255) NOT NULL , `notice_date` VARCHAR(255) NOT NULL , `subject` VARCHAR(255) NOT NULL , `notice` TEXT NOT NULL , `issued_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , PRIMARY KEY (`id`)) ENGINE = InnoDB;
+
+
+--table creation for career section
+CREATE TABLE `student-dbms`.`career_section` ( `id` INT(11) NOT NULL AUTO_INCREMENT , `name` VARCHAR(255) NOT NULL , `email` VARCHAR(255) NOT NULL , `phone` VARCHAR(13) NOT NULL , `qualification` VARCHAR(255) NOT NULL , `experience` VARCHAR(255) NOT NULL , `resume` VARCHAR(255) NOT NULL , `applied_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP , PRIMARY KEY (`id`), UNIQUE `email` (`email`)) ENGINE = InnoDB;

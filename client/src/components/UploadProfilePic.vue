@@ -89,7 +89,7 @@ export default {
       if (this.image == undefined) {
         return window.alert("Please choose a file to upload");
       }
-      console.log(this.image);
+      // console.log(this.image);
       try {
         // create form data
         const fd = new FormData();

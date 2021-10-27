@@ -12,19 +12,19 @@ const storage = multer.diskStorage({
   },
 });
 
-// initialise upload image middleware
-const uploadImage = multer({
+// initialise upload resume middleware
+const uploadResume = multer({
   storage: storage,
   limits: { fileSize: 1000000 }, //1 MB
   fileFilter: (req, file, cb) => {
-    checkFileTypeImage(file, cb);
+    checkFileTypeResume(file, cb);
   },
-}).single("myImage");
+}).single("myResume");
 
-// creating function to check the file type of image
-const checkFileTypeImage = (file, cb) => {
+// creating function to check the file type of resume
+const checkFileTypeResume = (file, cb) => {
   //allowed type
-  const filetypes = /jpeg|jpg|png|gif/; //regular expression
+  const filetypes = /pdf/; //regular expression
   //check extension
   const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
   //check mime type
@@ -32,8 +32,8 @@ const checkFileTypeImage = (file, cb) => {
   if (mimetype && extname) {
     return cb(null, true);
   } else {
-    cb("error:Only Images are alloewd!");
+    cb("error:Only Pdfs are allowed!");
   }
 };
 
-module.exports = uploadImage;
+module.exports = uploadResume;

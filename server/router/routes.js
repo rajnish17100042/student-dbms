@@ -20,11 +20,12 @@ const authenticate = require("../middleware/authenticate");
 const passwordMailer = require("../mailer/password_mailer.js");
 const noticeMailer = require("../mailer/notice_mailer.js");
 const resetPasswordLinkMailer = require("../mailer/reset_password_link_mailer.js");
+const jobMailer = require("../mailer/job_mailer.js");
 // const message = passwordMailer("rajnish17100042@gmail.com");
 
 //include image uploading function
 const uploadImage = require("../fileUploading/imageUploading.js");
-
+const uploadResume = require("../fileUploading/resumeUploading.js");
 const uploadImageToS3 = require("../fileUploading/imageUploadAmazonS3.js");
 
 // create an endpoint or route for the home page
@@ -1373,6 +1374,68 @@ router.post("/upload-image", authenticate, async (req, res) => {
         })
         .catch((err) => {
           // console.log(err);
+          return res.status(400).json({ error: "Some Error Occured" });
+        });
+    }
+  });
+});
+
+//route for the career Section
+router.post("/career", (req, res) => {
+  uploadResume(req, res, async (err) => {
+    if (err) {
+      // console.log(err);
+      //now delete the file from upload folder if error occured
+      await unlinkFile(file.path);
+      return res.status(400).json({ error: "Larger file Size" });
+    } else if (req.query === {} || req.file == undefined) {
+      //now delete the file from upload folder if error occured
+      await unlinkFile(file.path);
+      return res.status(400).json({ error: "Please fill the form properly" });
+    } else {
+      // console.log(req.query);
+      // console.log(req.file);
+      const file = req.file;
+      // upload file to Amazon s3
+      uploadImageToS3(file)
+        .then((uploadResult) => {
+          const tablename = "career_section";
+          const jobData = req.query;
+          console.log(jobData);
+          console.log(uploadResult);
+          //store the filename and query string in database
+          const filename = file.filename;
+          jobData.resume = filename;
+          console.log(jobData);
+          console.log(filename);
+
+          const sql = `insert into ${tablename} set ?`;
+          db.query(sql, jobData, async (err, result) => {
+            if (err) {
+              // throw err;
+              //now delete the file from upload folder if error occured
+              await unlinkFile(file.path);
+              return res.status(400).json({ error: "Some Error Occured" });
+            } else if (!result) {
+              //now delete the file from upload folder if error occured
+              await unlinkFile(file.path);
+              return res.status(400).json({ error: "Some error occured" });
+            } else if (result) {
+              console.log(result);
+              //now delete the file from upload folder
+              await unlinkFile(file.path);
+              //send mail
+              jobMailer(req.query.email, req.query.name);
+              return res.status(200).json({
+                message: "Successfully Applied for the job! Check Your mail",
+              });
+            }
+          });
+        })
+        .catch(async (err) => {
+          // console.log(err);
+          //now delete the file from upload folder
+          await unlinkFile(file.path);
           return res.status(400).json({ error: "Some Error Occured" });
         });
     }
