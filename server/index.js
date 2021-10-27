@@ -21,17 +21,22 @@ app.use(cookieParser());
 
 // use cors to send the data from one port to other
 //no need to use cors if proxy is used in the frontend
-app.use(
-  cors({
-    origin: "http://localhost:8080",
-    credentials: true,
-  })
-);
+app.use(cors());
 
 //using middleware to use the route we created
 
 app.use(require("./router/routes"));
 
+//handle production
+if (process.env.Node_ENV === "production") {
+  //static folder
+  app.use(express.static(__dirname + "/public/"));
+
+  //handle single page application (SPA)
+  app.get(/.*/, (req, res) => {
+    res.sendFile(__dirname + "/public/index.html");
+  });
+}
 app.listen(port, (err) => {
   if (err) throw err;
   console.log(`Server is running at the port ${port}`);

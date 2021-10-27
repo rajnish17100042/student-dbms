@@ -99,7 +99,7 @@ export default {
         const params = jQuery.param(userData);
         console.log(params);
         // console.log(fd);
-        const response = await fetch("http://localhost:5000/career?" + params, {
+        const response = await fetch("/career?" + params, {
           method: "POST",
           // headers: { "Content-Type": "application/json" },
           body: fd

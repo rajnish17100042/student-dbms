@@ -4,8 +4,8 @@
   "description": "This project is for student database management system",
   "main": "app.js",
   "scripts": {
-    "start": "node app",
-    "dev": "nodemon app"
+    "start": "node index",
+    "dev": "nodemon index"
   },
   "keywords": [
     "student-dbms"
