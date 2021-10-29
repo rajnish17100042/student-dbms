@@ -27,6 +27,7 @@ AWS_SECRET_KEY=""
 
 # steps to get the production code:
 run the following command
+
 1.cd client
 
 2.npm run build  : a dist folder is created and this is the minimal code for the production
