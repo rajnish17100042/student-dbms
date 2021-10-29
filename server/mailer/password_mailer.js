@@ -14,8 +14,8 @@ const passwordMailer = async (email, name) => {
   var mailOptions = {
     from: "studentdbms2021@gmail.com",
     to: email,
-    subject: "Sending Email using Node.js",
-    html: `Welcome <strong>${name}! </strong>your are registerd for the course you applied! <p>Your one time password is test@123.</p> <p>Login to the website <a>http://localhost:8080/login</a> and change your password immediately.</p>`,
+    subject: "Login credentials ",
+    html: `Welcome <strong>${name}! </strong>your are registerd for the course you applied! <p>Your one time password is test@123.</p> <p>Login to the website <a href="https://student-database-management1.herokuapp.com/login">here</a> and change your password immediately.</p>`,
   };
 
   transporter.sendMail(mailOptions, (error, info) => {

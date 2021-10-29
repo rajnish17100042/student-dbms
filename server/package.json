@@ -2,10 +2,10 @@
   "name": "student-dbms",
   "version": "1.0.0",
   "description": "This project is for student database management system",
-  "main": "app.js",
+  "main": "index.js",
   "scripts": {
-    "start": "node index",
-    "dev": "nodemon index"
+    "start": "node index.js"
+     
   },
   "keywords": [
     "student-dbms"

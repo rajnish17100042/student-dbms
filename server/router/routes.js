@@ -29,9 +29,9 @@ const uploadResume = require("../fileUploading/resumeUploading.js");
 const uploadImageToS3 = require("../fileUploading/imageUploadAmazonS3.js");
 
 // create an endpoint or route for the home page
-router.get("/", (req, res) => {
-  res.send("<h1>Hello from the Home Page.....This is the Express router</h1>");
-});
+// router.get("/", (req, res) => {
+//   res.send("<h1>Hello from the Home Page.....This is the Express router</h1>");
+// });
 
 // create route for student registration
 router.post("/registerStudent", authenticate, (req, res) => {
@@ -775,7 +775,7 @@ router.post("/login", (req, res) => {
   // destructuring of data
   let { email, password, role } = req.body;
   const data = req.body;
-  // console.log(data);
+  console.log(data);
 
   // server side validation
   if (!email || !password || !role) {
@@ -805,6 +805,7 @@ router.post("/login", (req, res) => {
 
     if (err) {
       //  throw err;
+      console.log(err);
       return res.status(400).json("Some error occured! Please try again");
     } else if (!result.length) {
       //or we can write result.length===0
@@ -814,18 +815,18 @@ router.post("/login", (req, res) => {
     // console.log("User found checking password");
     try {
       // use the password retrieved from the database in the above query
-      // console.log(dbpassword);
+      console.log(dbpassword);
       // now compare the password using bcrypt  ...password===dbpassword
       const passwordMatch = await bcrypt.compare(password, dbpassword); //returns true or false
-      // console.log(passwordMatch);
+      console.log(passwordMatch);
       if (!passwordMatch) {
-        // console.log("invalid credentials");
+        console.log("invalid credentials");
         return res.status(400).json("Invalid Credentials");
       }
       // if every thing is fine then genetate a  token for the user ...jwt authentication and store it in the cookie for access the protected routed
 
       // checking if role variable is accessed here
-      // console.log(role);
+      console.log(role);
       const payload = {
         email: dbemail,
         password: dbpassword,
@@ -835,6 +836,7 @@ router.post("/login", (req, res) => {
       jwt.sign({ payload }, secretKey, (err, token) => {
         if (err) {
           // throw err;
+          console.log(err);
           return res.status(400).json("Some error occured! Please try again");
         }
         // console.log(token);
@@ -846,13 +848,14 @@ router.post("/login", (req, res) => {
 
         //if cookie is not workig the store token in the browser local storage
         // window.localStorage.setItem("token", token);
-        // console.log(token);
+        console.log(token);
         return res.status(200).json({
           Success: "User logged in successfully",
           access_token: token,
         });
       });
     } catch (err) {
+      console.log(err);
       return res.status(400).json("Some error occured! Please try again");
     }
   });
@@ -861,7 +864,7 @@ router.post("/login", (req, res) => {
 });
 
 // route for forget password ...will check for user existence in database and send
-router.post("/forget-password", (req, res) => {
+router.post("/forgetPassword", (req, res) => {
   // get the request body
   // console.log(req.body);
   const { email, role } = req.body;
@@ -904,7 +907,7 @@ router.post("/forget-password", (req, res) => {
       const token = jwt.sign(payload, secret, { expiresIn: "15m" });
       // console.log(token);
       //now generate the reset password link
-      const resetPasswordLink = `http://localhost:8080/reset-password/${role}/${email}/${token}`;
+      const resetPasswordLink = `https://student-database-management1.herokuapp.com/reset-password/${role}/${email}/${token}`;
       // console.log(resetPasswordLink);
       //send the reset password link to email
       resetPasswordLinkMailer(email, resetPasswordLink);
@@ -916,7 +919,7 @@ router.post("/forget-password", (req, res) => {
 });
 
 // route to authenticate the user for the reset password
-router.get("/reset-password/:role/:email/:token", (req, res) => {
+router.get("/resetPassword/:role/:email/:token", (req, res) => {
   const params = req.params;
   const { role, email, token } = params;
   let tablename = ""; //global
@@ -960,7 +963,7 @@ router.get("/reset-password/:role/:email/:token", (req, res) => {
 });
 
 // route to reset the password
-router.post("/reset-password/:role/:email/:token", (req, res) => {
+router.post("/resetPassword/:role/:email/:token", (req, res) => {
   const params = req.params;
   const { newPassword, cnewPassword } = req.body;
   // console.log(newPassword);
@@ -1034,14 +1037,14 @@ router.post("/reset-password/:role/:email/:token", (req, res) => {
   });
 });
 //route for admin dashboard
-router.get("/admin/dashboard", authenticate, async (req, res) => {
+router.get("/adminDashboard", authenticate, async (req, res) => {
   // console.log("This is dashboard");
   // send the user information to the frontend to show the data on dashboard
   return res.status(200).json({ user: req.user });
 });
 
 //route for student dashboard
-router.get("/student/dashboard", authenticate, async (req, res) => {
+router.get("/studentDashboard", authenticate, async (req, res) => {
   // console.log("This is dashboard");
   // send the user information to the frontend to show the data on dashboard
   // console.log(req.user);
@@ -1049,15 +1052,15 @@ router.get("/student/dashboard", authenticate, async (req, res) => {
 });
 
 //route for teacher dashboard
-router.get("/teacher/dashboard", authenticate, async (req, res) => {
+router.get("/teacherDashboard", authenticate, async (req, res) => {
   // console.log("This is dashboard");
   // send the user information to the frontend to show the data on dashboard
-  // console.log(req.user);
+  console.log(req.user);
   return res.status(200).json({ user: req.user });
 });
 
 // route to get all the student under the guidance of a particular teacher
-router.get("/teacher/studentUnderGuidance", authenticate, (req, res) => {
+router.get("/studentUnderGuidance", authenticate, (req, res) => {
   const personalMentor = req.user[0].name;
   // console.log(personalMentor);
   // get student list from the table
@@ -1068,17 +1071,17 @@ router.get("/teacher/studentUnderGuidance", authenticate, (req, res) => {
       // throw err;
       return res.status(400).json("Error occured! Please try again");
     }
-    if (!result.length) {
-      return res.status(400).json("Error occured! Please try again");
-    }
-    if (result.length) {
+    // if (!result.length) {
+    //   return res.status(400).json("Error occured! Please try again");
+    // }
+    if (result.length >= 0) {
       return res.status(200).json({ result });
     }
   });
 });
 
 //route to get all the registered students,teachers and admins
-router.get("/admin/registrationDetails", authenticate, async (req, res) => {
+router.get("/registrationDetails", authenticate, async (req, res) => {
   var results = []; //global variable
   // console.log(req.role);
   if (req.role !== "admin") {
@@ -1136,25 +1139,21 @@ router.get("/admin/registrationDetails", authenticate, async (req, res) => {
 });
 
 //route to authenticate befor rendering registration pages
-router.get(
-  "/admin/registrationAuthentication",
-  authenticate,
-  async (req, res) => {
-    // console.log("reached the route");
-    // console.log(req.user);
-    // console.log(req.role);
+router.get("/registrationAuthentication", authenticate, async (req, res) => {
+  // console.log("reached the route");
+  // console.log(req.user);
+  // console.log(req.role);
 
-    if (
-      req.role !== "admin" &&
-      req.role !== "student" &&
-      req.role !== "teacher"
-    ) {
-      return res.status(400).json({ error: "Error! Try again" });
-    } else {
-      return res.status(200).json({ success: "Rendering registration page" });
-    }
+  if (
+    req.role !== "admin" &&
+    req.role !== "student" &&
+    req.role !== "teacher"
+  ) {
+    return res.status(400).json({ error: "Error! Try again" });
+  } else {
+    return res.status(200).json({ success: "Rendering registration page" });
   }
-);
+});
 
 //route for login authentication  .. if user is already logged in then send to dashboard
 router.get("/loginAuthentication", authenticate, async (req, res) => {
@@ -1171,7 +1170,7 @@ router.get("/loginAuthentication", authenticate, async (req, res) => {
 });
 
 //route to store notice in database and sending notice to  email
-router.post("/issue-notice", authenticate, (req, res) => {
+router.post("/issueNotice", authenticate, (req, res) => {
   let tableName = ""; //global variable
   let emails = []; //global variable to store all the emails
   // allow only teacher and admin to issue a notice  ...double checking  for security purpose
@@ -1302,7 +1301,7 @@ router.get("/authentication", authenticate, (req, res) => {
 });
 
 //route for authentication before rendering forget password page
-router.get("/common-authentication", authenticate, (req, res) => {
+router.get("/commonAuthentication", authenticate, (req, res) => {
   if (!req.user) {
     return res.status(400).json("Some Error Occured! Try again");
   } else if (
@@ -1325,7 +1324,7 @@ router.get("/common-authentication", authenticate, (req, res) => {
 });
 
 // route to upload image
-router.post("/upload-image", authenticate, async (req, res) => {
+router.post("/uploadImage", authenticate, async (req, res) => {
   uploadImage(req, res, (err) => {
     if (err) {
       // console.log(err);
@@ -1443,7 +1442,7 @@ router.post("/career", (req, res) => {
 });
 
 //route to get the job application data
-router.get("/admin/job-application", authenticate, (req, res) => {
+router.get("/jobApplication", authenticate, (req, res) => {
   // console.log(req.role);
   if (req.role !== "admin") {
     return res.status(400).json({ error: "Do not have proper permission" });
