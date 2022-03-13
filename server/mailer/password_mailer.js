@@ -1,18 +1,23 @@
 var nodemailer = require("nodemailer");
-const user = process.env.GMAIL_USER_ID;
-const password = process.env.GMAIL_PASSWORD;
+const user = process.env.YAHOO_USER_ID;
+const password = process.env.YAHOO_PASSWORD;
 // console.log(user, password);
 const passwordMailer = async (email, name) => {
   var transporter = nodemailer.createTransport({
-    service: "gmail",
+    host: "smtp.bizmail.yahoo.com",
+    port: 587,
+    service: "yahoo",
+    secure: true,
     auth: {
       user,
       pass: password,
     },
+    debug: false,
+    logger: true,
   });
 
   var mailOptions = {
-    from: "studentdbms2021@gmail.com",
+    from: "rajnishpatel203@yahoo.com",
     to: email,
     subject: "Login credentials ",
     html: `Welcome <strong>${name}! </strong>your are registerd for the course you applied! <p>Your one time password is test@123.</p> <p>Login to the website <a href="https://student-database-management1.herokuapp.com/login">here</a> and change your password immediately.</p>`,

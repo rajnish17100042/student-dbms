@@ -1,18 +1,23 @@
 var nodemailer = require("nodemailer");
-const user = process.env.GMAIL_USER_ID;
-const password = process.env.GMAIL_PASSWORD;
+const user = process.env.YAHOO_USER_ID;
+const password = process.env.YAHOO_PASSWORD;
 // console.log(user, password);
 const resetPasswordLinkMailer = async (email, resetPasswordLink) => {
   var transporter = nodemailer.createTransport({
-    service: "gmail",
+    host: "smtp.bizmail.yahoo.com",
+    port: 587,
+    service: "yahoo",
+    secure: true,
     auth: {
       user,
       pass: password,
     },
+    debug: false,
+    logger: true,
   });
 
   var mailOptions = {
-    from: "studentdbms2021@gmail.com",
+    from: "rajnishpatel203@yahoo.com",
     to: email,
     subject: "One Time Reset Password Link",
     html: `<p>Please click <a href="${resetPasswordLink}">here</a> to reset your password</p>
